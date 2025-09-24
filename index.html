@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7k - Game Developer & Server Host</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container img {
+            height: 32px;
+            width: auto;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            opacity: 1;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #9b59b6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 400;
+        }
+
+        .nav-links a:hover {
+            color: #9b59b6;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .hero-section {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            padding: 4rem 0;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #9b59b6;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: #cccccc;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 8px 16px;
+            background: #1a1a1a;
+            color: #cccccc;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid #2a2a2a;
+        }
+
+        .social-links a:hover {
+            background: #2a2a2a;
+            color: #9b59b6;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: #9b59b6;
+            transform: translateY(-4px);
+            background: #151515;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+        }
+
+        .project-date {
+            font-size: 0.8rem;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-type {
+            font-size: 0.9rem;
+            color: #9b59b6;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #cccccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #9b59b6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #c19bf0;
+        }
+
+        .skills-section {
+            margin: 4rem 0;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: #9b59b6;
+            background: #151515;
+        }
+
+        .skill-category h3 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #1a1a1a;
+            color: #cccccc;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: #9b59b6;
+            color: #ffffff;
+        }
+
+        .github-stats {
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .github-stats img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .github-stats img:hover {
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: #666666;
+            border-top: 1px solid #1a1a1a;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+            .social-links {
+                flex-direction: column;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .typing-animation {
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <img src="https://imgur.com/pnvYx9l.png" alt="Logo 1" onerror="this.style.display='none'">
+                <img src="https://peekseek.net/public/img/logo.png" alt="PeekSeek Logo" onerror="this.style.display='none'">
+                <div class="logo">7k</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Hey, I'm 7k<span class="typing-animation">_</span></h1>
+                <p class="hero-subtitle">Game Developer & Server Administrator</p>
+                <div class="social-links">
+                    <a href="https://steamcommunity.com/profiles/76561199437362174/" target="_blank">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.029 4.524 4.524s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.5 20.36 6.329 24 11.979 24c6.624 0 11.979-5.354 11.979-11.979C23.958 5.397 18.603.001 11.979.001z"/>
+                        </svg>
+                        Steam
+                    </a>
+                    <a href="https://peekseek.net/" target="_blank">🎯 PeekSeek</a>
+                    <a href="mailto:7kunturned@gmail.com">📧 Email</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section scroll-fade">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">PeekSeek Network</h3>
+                            <p class="project-date">2024 - ACTIVE</p>
+                        </div>
+                    </div>
+                    <p class="project-type">Unturned PVP Server</p>
+                    <a href="https://peekseek.net/" target="_blank" class="project-link">
+                        Visit Server >>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Hypase Network</h3>
+                            <p class="project-date">2024 - ACTIVE</p>
+                        </div>
+                    </div>
+                    <p class="project-type">Unturned Network Store</p>
+                    <a href="https://hypase.tebex.io" target="_blank" class="project-link">
+                        View Store >>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">UI Designs</h3>
+                            <p class="project-date">2024 - ACTIVE</p>
+                        </div>
+                    </div>
+                    <p class="project-type">User Interface</p>
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3565936490" target="_blank" class="project-link">
+                        View UI Work >>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Custom Maps</h3>
+                            <p class="project-date">2023 - ONGOING</p>
+                        </div>
+                    </div>
+                    <p class="project-type">Unturned Maps</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3234075281" target="_blank" class="project-link">
+                            Map 1 >>
+                        </a>
+                        <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1921625170" target="_blank" class="project-link">
+                            Map 2 >>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Custom Clothing</h3>
+                            <p class="project-date">2023 - ONGOING</p>
+                        </div>
+                    </div>
+                    <p class="project-type">Unturned Assets</p>
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3339153996" target="_blank" class="project-link">
+                        View Clothes >>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section skills-section scroll-fade">
+            <h2 class="section-title">Skills & Technologies</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Programming Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">Python</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Web Development</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Game Development</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Unity</span>
+                        <span class="skill-tag">Unturned Maps</span>
+                        <span class="skill-tag">Unturned NPCs</span>
+                        <span class="skill-tag">Unturned Clothes</span>
+                        <span class="skill-tag">UI/UX</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Server Administration</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Unturned Server Setup</span>
+                        <span class="skill-tag">Game Hosting</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="contact" class="section scroll-fade">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="social-links">
+                <a href="mailto:7kunturned@gmail.com">📧 Email</a>
+                <a href="https://steamcommunity.com/profiles/76561199437362174/" target="_blank">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.029 4.524 4.524s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.5 20.36 6.329 24 11.979 24c6.624 0 11.979-5.354 11.979-11.979C23.958 5.397 18.603.001 11.979.001z"/>
+                    </svg>
+                    Steam Profile
+                </a>
+                <a href="https://peekseek.net/" target="_blank">🎯 PeekSeek Server</a>
+                <a href="https://hypase.tebex.io" target="_blank">🛒 Hypase Store</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 7k. Game Developer & Server Host • Built for the gaming community</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-fade').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Typing animation control
+        const typingElement = document.querySelector('.typing-animation');
+        if (typingElement) {
+            setInterval(() => {
+                typingElement.style.opacity = typingElement.style.opacity === '0' ? '1' : '0';
+            }, 800);
+        }
+    </script>
+</body>
+</html>
