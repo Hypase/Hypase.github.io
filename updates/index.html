@@ -4,7 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EWA Generator Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #ff6b6b;
+            --primary-dark: #ff5252;
+            --primary-light: #ff8e8e;
+            --secondary: #ffd93d;
+            --secondary-dark: #ffc107;
+            --secondary-light: #ffe87d;
+            --accent: #5865F2;
+            --accent-dark: #4752C4;
+            --bg-dark: #1a1a2e;
+            --bg-card: #2d2b55;
+            --bg-card-hover: #39376b;
+            --border: #4a467c;
+            --text: #ffffff;
+            --text-secondary: #b8b5ff;
+            --text-muted: #8a85cc;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --glow: 0 0 20px rgba(255, 107, 107, 0.4);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,65 +39,193 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            font-family: 'Segoe UI', 'Inter', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 50%, #0f3460 100%);
+            color: var(--text);
             min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            line-height: 1.6;
+            overflow-x: hidden;
             position: relative;
         }
 
-        .container {
-            max-width: 1000px;
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            z-index: -1;
             overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 5s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            top: 30%;
+            left: 60%;
+            animation-delay: 10s;
+        }
+
+        .bg-circle:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            top: 80%;
+            left: 10%;
+            animation-delay: 15s;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-logo {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+            text-shadow: var(--glow);
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
             position: relative;
             z-index: 1;
         }
 
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             padding: 40px;
             text-align: center;
-            border-bottom: 5px solid #ff5252;
+            border-radius: var(--radius) var(--radius) 0 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .header-logo {
-            height: 60px;
+            height: 80px;
             width: auto;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            animation: bounce 3s infinite;
         }
 
         .header-text {
             flex: 1;
+            max-width: 600px;
         }
 
         .header h1 {
-            font-size: 3em;
+            font-size: 3.5em;
             margin-bottom: 10px;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
             font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header p {
-            font-size: 1.2em;
+            font-size: 1.3em;
             opacity: 0.95;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--bg-card);
+            border-radius: 0 0 var(--radius) var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
         }
 
         .tabs {
             display: flex;
-            background: #f5f5f5;
-            border-bottom: 3px solid #ffd93d;
+            background: var(--bg-card);
+            border-bottom: 3px solid var(--secondary);
         }
 
         .tab {
@@ -80,195 +235,417 @@
             font-weight: 700;
             font-size: 1.1em;
             cursor: pointer;
-            background: #e0e0e0;
-            color: #666;
-            transition: all 0.3s;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            transition: var(--transition);
             border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .tab:hover:before {
+            left: 100%;
         }
 
         .tab.active {
-            background: white;
-            color: #ff5252;
-            border-bottom: 4px solid #ff5252;
+            background: var(--bg-card-hover);
+            color: var(--primary);
+            border-bottom: 4px solid var(--primary);
         }
 
         .tab:hover {
-            background: #f0f0f0;
+            background: var(--bg-card-hover);
+            color: var(--primary-light);
         }
 
+        /* Content */
         .content {
             padding: 40px;
             display: none;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
         }
 
         .content.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.6s ease;
         }
 
+        /* Input Sections */
         .input-section {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
-        label {
+        .input-section label {
             display: block;
             font-weight: 700;
-            color: #ff5252;
-            margin-bottom: 8px;
+            color: var(--primary);
+            margin-bottom: 12px;
             font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-section label i {
+            font-size: 1.2em;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 15px;
-            border: 3px solid #ffd93d;
-            border-radius: 10px;
+            padding: 18px;
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            border-radius: 12px;
             font-size: 1em;
             font-family: inherit;
-            transition: all 0.3s;
+            transition: var(--transition);
             margin-bottom: 15px;
+            color: var(--text);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 140px;
+            line-height: 1.6;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #ff6b6b;
-            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2), var(--shadow);
+            transform: translateY(-2px);
         }
 
+        /* Button Groups */
         .button-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         button {
-            padding: 18px 30px;
+            padding: 20px 30px;
             font-size: 1.1em;
             font-weight: 700;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        button:hover:before {
+            left: 100%;
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
         }
 
         .generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
         }
 
         .copy-btn {
-            background: linear-gradient(135deg, #ffd93d 0%, #ffc107 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
             color: #333;
         }
 
         .copy-btn:hover {
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 217, 61, 0.4);
         }
 
         .discord-btn {
-            background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
             color: white;
             grid-column: 1 / -1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
 
         .discord-btn:hover {
-            background: linear-gradient(135deg, #4752C4 0%, #3C45A5 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(88, 101, 242, 0.4);
         }
 
+        /* Output Sections */
         .output-section {
-            background: #fff9e6;
-            border: 3px solid #ffd93d;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
+            background: var(--bg-dark);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .output-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .output-section h2 {
-            color: #ff5252;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .discord-preview {
+            background: #2f3136;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            color: #dcddde;
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border: 1px solid #40444b;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .discord-preview h3 {
+            color: var(--secondary);
+            font-size: 1.4em;
             margin-bottom: 15px;
-            font-size: 1.8em;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .discord-preview {
-            background: #36393f;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            color: #dcddde;
-            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-
-        .discord-preview h3 {
-            color: #ffd93d;
-            font-size: 1.3em;
-            margin-bottom: 10px;
-        }
-
         pre {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 12px;
             overflow-x: auto;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 0.95em;
             line-height: 1.8;
             white-space: pre-wrap;
             word-wrap: break-word;
-            border: 2px solid #ff6b6b;
+            border: 2px solid var(--border);
+            color: var(--text);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
+        /* Info Box */
         .info-box {
-            background: #e8f5e9;
-            border: 2px solid #4caf50;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #2e7d32;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #4caf50;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--success);
         }
 
         .info-box strong {
-            color: #1b5e20;
+            color: var(--success);
+            font-size: 1.1em;
         }
 
+        /* Update and Todo Items */
+        .update-item, .todo-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .update-item:hover, .todo-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .update-item button, .todo-item button {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .update-item button:hover, .todo-item button:hover {
+            background: #e53935;
+            transform: translateY(-2px);
+        }
+
+        .add-item-btn {
+            background: var(--success) !important;
+            margin-top: 15px;
+            padding: 15px 25px !important;
+            font-size: 1em !important;
+            width: 100%;
+        }
+
+        .add-item-btn:hover {
+            background: #45a049 !important;
+            transform: translateY(-3px);
+        }
+
+        .priority-select {
+            padding: 10px 15px;
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin: 0;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .priority-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+        }
+
+        /* Notification */
         .copy-notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4caf50;
+            top: 30px;
+            right: 30px;
+            background: var(--success);
             color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             font-weight: 700;
-            animation: slideIn 0.3s ease-out;
+            animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        @keyframes slideIn {
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-top: 50px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-20px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(10px) rotate(240deg);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes slideInRight {
             from {
                 transform: translateX(400px);
                 opacity: 0;
@@ -279,177 +656,483 @@
             }
         }
 
-        .update-item, .todo-item {
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .update-item, .todo-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-1 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-1 {
+            margin-top: 1rem;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Feature Highlights */
+        .feature-highlights {
             display: grid;
-            grid-template-columns: auto 1fr auto auto;
-            gap: 10px;
-            align-items: start;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-card i {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: var(--text);
             margin-bottom: 10px;
+            font-size: 1.3em;
         }
 
-        .update-item button, .todo-item button {
-            padding: 5px 10px;
-            font-size: 0.9em;
-            background: #ff5252;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .update-item button:hover, .todo-item button:hover {
-            background: #ff3838;
-        }
-
-        .add-item-btn {
-            background: #4caf50 !important;
-            margin-top: 10px;
-            padding: 10px 20px !important;
-            font-size: 1em !important;
-        }
-
-        .add-item-btn:hover {
-            background: #45a049 !important;
-        }
-
-        .priority-select {
-            padding: 5px 10px;
-            border: 2px solid #ffd93d;
-            border-radius: 5px;
-            font-size: 0.9em;
-            margin: 0;
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="https://i.imgur.com/5wQ4OzF.jpeg" alt="EWA Logo" class="header-logo">
-            <div class="header-text">
-                <h1>EWA TOOLS</h1>
-                <p>Update & To-Do Generator</p>
-            </div>
-            <img src="https://i.imgur.com/5wQ4OzF.jpeg" alt="EWA Logo" class="header-logo">
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">
+            <i class="fas fa-tools"></i> EWA Tools
         </div>
-        
-        <div class="tabs">
-            <button class="tab active" data-tab="updates">📄 Updates</button>
-            <button class="tab" data-tab="todo">✅ To-Do List</button>
-        </div>
-
-        <!-- UPDATES TAB -->
-        <div id="updates-content" class="content active">
-            <div class="info-box">
-                <strong>📢 How to use:</strong> Fill in the fields below, add your updates, then generate and copy to Discord or use Discohook!
-            </div>
-
-            <div class="input-section">
-                <label for="version">Version Number:</label>
-                <input type="text" id="version" placeholder="e.g., 1.2.5" value="X.XX.X">
-            </div>
-
-            <div class="input-section">
-                <label for="category">Update Category:</label>
-                <input type="text" id="category" placeholder="e.g., NEW FEATURES, BUG FIXES, IMPROVEMENTS">
-            </div>
-
-            <div class="input-section">
-                <label for="description">Category Description:</label>
-                <input type="text" id="description" placeholder="e.g., Major gameplay enhancements">
-            </div>
-
-            <div class="input-section">
-                <label for="subcategory">Update Subcategory (Optional):</label>
-                <input type="text" id="subcategory" placeholder="e.g., Player Systems">
-            </div>
-
-            <div class="input-section">
-                <label>Update Items:</label>
-                <div id="updatesList"></div>
-                <button class="add-item-btn" onclick="addUpdateField()">+ Add Update Item</button>
-            </div>
-
-            <div class="input-section">
-                <label for="additional">Additional Information (Optional):</label>
-                <textarea id="additional" placeholder="e.g., Thanks for playing! More updates coming soon..."></textarea>
-            </div>
-
-            <div class="button-group">
-                <button class="generate-btn" onclick="generateUpdate()">
-                    ⚡ Generate Update
-                </button>
-                <button class="copy-btn" id="copyBtn" onclick="copyToClipboard('update')" style="display: none;">
-                    📋 Copy to Clipboard
-                </button>
-                <button class="discord-btn" onclick="openDiscohook('update')" style="display: none;" id="discohookBtn">
-                    <svg width="24" height="24" viewBox="0 0 71 55" fill="white">
-                        <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
-                    </svg>
-                    Open in Discohook
-                </button>
-            </div>
-
-            <div id="updateOutput"></div>
-        </div>
-
-        <!-- TODO TAB -->
-        <div id="todo-content" class="content">
-            <div class="info-box">
-                <strong>✅ How to use:</strong> Add your tasks with priorities and due dates, then generate a formatted to-do list for Discord!
-            </div>
-
-            <div class="input-section">
-                <label for="todoTitle">To-Do List Title:</label>
-                <input type="text" id="todoTitle" placeholder="e.g., EWA Development Tasks" value="EWA To-Do List">
-            </div>
-
-            <div class="input-section">
-                <label for="todoDate">Date/Week:</label>
-                <input type="text" id="todoDate" placeholder="e.g., Week of Jan 15, 2025">
-            </div>
-
-            <div class="input-section">
-                <label for="todoCategory">Category (Optional):</label>
-                <input type="text" id="todoCategory" placeholder="e.g., Development, Design, Testing">
-            </div>
-
-            <div class="input-section">
-                <label>Tasks:</label>
-                <div id="todoList"></div>
-                <button class="add-item-btn" onclick="addTodoField()">+ Add Task</button>
-            </div>
-
-            <div class="input-section">
-                <label for="todoNotes">Notes (Optional):</label>
-                <textarea id="todoNotes" placeholder="Additional notes or reminders..."></textarea>
-            </div>
-
-            <div class="button-group">
-                <button class="generate-btn" onclick="generateTodo()">
-                    ⚡ Generate To-Do List
-                </button>
-                <button class="copy-btn" id="todoCopyBtn" onclick="copyToClipboard('todo')" style="display: none;">
-                    📋 Copy to Clipboard
-                </button>
-                <button class="discord-btn" onclick="openDiscohook('todo')" style="display: none;" id="todoDiscohookBtn">
-                    <svg width="24" height="24" viewBox="0 0 71 55" fill="white">
-                        <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"/>
-                    </svg>
-                    Open in Discohook
-                </button>
-            </div>
-
-            <div id="todoOutput"></div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loading-progress"></div>
         </div>
     </div>
 
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <img src="https://i.imgur.com/5wQ4OzF.jpeg" alt="EWA Logo" class="header-logo">
+                <div class="header-text">
+                    <h1>EWA GENERATOR TOOLS</h1>
+                    <p>Professional Update & To-Do Generator for Discord</p>
+                </div>
+                <img src="https://i.imgur.com/5wQ4OzF.jpeg" alt="EWA Logo" class="header-logo">
+            </div>
+        </div>
+        
+        <!-- Feature Highlights -->
+        <div class="feature-highlights">
+            <div class="feature-card fade-in" style="animation-delay: 0.1s;">
+                <i class="fas fa-bolt"></i>
+                <h3>Quick Generation</h3>
+                <p>Generate professional Discord updates in seconds with our intuitive interface</p>
+            </div>
+            <div class="feature-card fade-in" style="animation-delay: 0.3s;">
+                <i class="fas fa-palette"></i>
+                <h3>Beautiful Formatting</h3>
+                <p>Automatically format your content with Discord-friendly styling and markdown</p>
+            </div>
+            <div class="feature-card fade-in" style="animation-delay: 0.5s;">
+                <i class="fas fa-robot"></i>
+                <h3>Smart Templates</h3>
+                <p>Use our smart templates for updates, to-do lists, and announcements</p>
+            </div>
+            <div class="feature-card fade-in" style="animation-delay: 0.7s;">
+                <i class="fas fa-share-alt"></i>
+                <h3>Easy Sharing</h3>
+                <p>One-click copy to clipboard or direct integration with Discohook</p>
+            </div>
+        </div>
+
+        <!-- Tabs Container -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-tab="updates">
+                    <i class="fas fa-file-alt"></i> Updates
+                </button>
+                <button class="tab" data-tab="todo">
+                    <i class="fas fa-check-circle"></i> To-Do List
+                </button>
+                <button class="tab" data-tab="templates">
+                    <i class="fas fa-layer-group"></i> Templates
+                </button>
+                <button class="tab" data-tab="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </div>
+
+            <!-- UPDATES TAB -->
+            <div id="updates-content" class="content active">
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> How to use:</strong> Fill in the fields below, add your updates, then generate and copy to Discord or use Discohook for direct posting!
+                </div>
+
+                <div class="input-section">
+                    <label for="version"><i class="fas fa-code-branch"></i> Version Number:</label>
+                    <input type="text" id="version" placeholder="e.g., 1.2.5" value="X.XX.X">
+                </div>
+
+                <div class="input-section">
+                    <label for="category"><i class="fas fa-tags"></i> Update Category:</label>
+                    <input type="text" id="category" placeholder="e.g., NEW FEATURES, BUG FIXES, IMPROVEMENTS">
+                </div>
+
+                <div class="input-section">
+                    <label for="description"><i class="fas fa-align-left"></i> Category Description:</label>
+                    <input type="text" id="description" placeholder="e.g., Major gameplay enhancements">
+                </div>
+
+                <div class="input-section">
+                    <label for="subcategory"><i class="fas fa-indent"></i> Update Subcategory (Optional):</label>
+                    <input type="text" id="subcategory" placeholder="e.g., Player Systems">
+                </div>
+
+                <div class="input-section">
+                    <label><i class="fas fa-list-ul"></i> Update Items:</label>
+                    <div id="updatesList"></div>
+                    <button class="add-item-btn" onclick="addUpdateField()">
+                        <i class="fas fa-plus"></i> Add Update Item
+                    </button>
+                </div>
+
+                <div class="input-section">
+                    <label for="additional"><i class="fas fa-sticky-note"></i> Additional Information (Optional):</label>
+                    <textarea id="additional" placeholder="e.g., Thanks for playing! More updates coming soon..."></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button class="generate-btn" onclick="generateUpdate()">
+                        <i class="fas fa-bolt"></i> Generate Update
+                    </button>
+                    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard('update')" style="display: none;">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
+                    </button>
+                    <button class="discord-btn" onclick="openDiscohook('update')" style="display: none;" id="discohookBtn">
+                        <i class="fab fa-discord"></i> Open in Discohook
+                    </button>
+                </div>
+
+                <div id="updateOutput"></div>
+            </div>
+
+            <!-- TODO TAB -->
+            <div id="todo-content" class="content">
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> How to use:</strong> Add your tasks with priorities and due dates, then generate a formatted to-do list perfect for Discord announcements!
+                </div>
+
+                <div class="input-section">
+                    <label for="todoTitle"><i class="fas fa-heading"></i> To-Do List Title:</label>
+                    <input type="text" id="todoTitle" placeholder="e.g., EWA Development Tasks" value="EWA To-Do List">
+                </div>
+
+                <div class="input-section">
+                    <label for="todoDate"><i class="fas fa-calendar-alt"></i> Date/Week:</label>
+                    <input type="text" id="todoDate" placeholder="e.g., Week of Jan 15, 2025">
+                </div>
+
+                <div class="input-section">
+                    <label for="todoCategory"><i class="fas fa-tag"></i> Category (Optional):</label>
+                    <input type="text" id="todoCategory" placeholder="e.g., Development, Design, Testing">
+                </div>
+
+                <div class="input-section">
+                    <label><i class="fas fa-tasks"></i> Tasks:</label>
+                    <div id="todoList"></div>
+                    <button class="add-item-btn" onclick="addTodoField()">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+
+                <div class="input-section">
+                    <label for="todoNotes"><i class="fas fa-comment-alt"></i> Notes (Optional):</label>
+                    <textarea id="todoNotes" placeholder="Additional notes or reminders..."></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button class="generate-btn" onclick="generateTodo()">
+                        <i class="fas fa-bolt"></i> Generate To-Do List
+                    </button>
+                    <button class="copy-btn" id="todoCopyBtn" onclick="copyToClipboard('todo')" style="display: none;">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
+                    </button>
+                    <button class="discord-btn" onclick="openDiscohook('todo')" style="display: none;" id="todoDiscohookBtn">
+                        <i class="fab fa-discord"></i> Open in Discohook
+                    </button>
+                </div>
+
+                <div id="todoOutput"></div>
+            </div>
+
+            <!-- TEMPLATES TAB -->
+            <div id="templates-content" class="content">
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> Template Library:</strong> Use our pre-made templates to quickly create professional Discord announcements!
+                </div>
+
+                <div class="input-section">
+                    <label for="templateSelect"><i class="fas fa-clone"></i> Select Template:</label>
+                    <select id="templateSelect" onchange="loadTemplate()">
+                        <option value="">-- Choose a Template --</option>
+                        <option value="majorUpdate">Major Update Announcement</option>
+                        <option value="bugFixes">Bug Fixes Report</option>
+                        <option value="maintenance">Server Maintenance</option>
+                        <option value="event">Event Announcement</option>
+                        <option value="patchNotes">Patch Notes</option>
+                    </select>
+                </div>
+
+                <div id="templatePreview" class="output-section" style="display: none;">
+                    <h2><i class="fas fa-eye"></i> Template Preview</h2>
+                    <div class="discord-preview">
+                        <h3>Discord Preview</h3>
+                        <pre id="templatePreviewContent" style="background: #2f3136; color: #dcddde; border: none;"></pre>
+                    </div>
+                    <button class="generate-btn" onclick="useTemplate()" style="margin-top: 20px;">
+                        <i class="fas fa-magic"></i> Use This Template
+                    </button>
+                </div>
+
+                <div class="feature-highlights">
+                    <div class="feature-card">
+                        <i class="fas fa-rocket"></i>
+                        <h3>Major Updates</h3>
+                        <p>Perfect for announcing significant new features and content</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bug"></i>
+                        <h3>Bug Fixes</h3>
+                        <p>Structured format for reporting resolved issues</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tools"></i>
+                        <h3>Maintenance</h3>
+                        <p>Professional announcements for server maintenance</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-star"></i>
+                        <h3>Events</h3>
+                        <p>Eye-catching templates for community events</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS TAB -->
+            <div id="settings-content" class="content">
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> Customization:</strong> Personalize your EWA Generator experience with these settings!
+                </div>
+
+                <div class="input-section">
+                    <label for="themeSelect"><i class="fas fa-palette"></i> Theme:</label>
+                    <select id="themeSelect" onchange="changeTheme()">
+                        <option value="default">Default (Red/Yellow)</option>
+                        <option value="blue">Blue Theme</option>
+                        <option value="green">Green Theme</option>
+                        <option value="purple">Purple Theme</option>
+                    </select>
+                </div>
+
+                <div class="input-section">
+                    <label for="autoSave"><i class="fas fa-save"></i> Auto-Save:</label>
+                    <input type="checkbox" id="autoSave" checked> Enable auto-save of your work
+                </div>
+
+                <div class="input-section">
+                    <label for="animations"><i class="fas fa-film"></i> Animations:</label>
+                    <input type="checkbox" id="animations" checked> Enable interface animations
+                </div>
+
+                <div class="input-section">
+                    <label for="exportFormat"><i class="fas fa-file-export"></i> Export Format:</label>
+                    <select id="exportFormat">
+                        <option value="discord">Discord Format</option>
+                        <option value="markdown">Markdown</option>
+                        <option value="html">HTML</option>
+                        <option value="plain">Plain Text</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button class="generate-btn" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                    <button class="copy-btn" onclick="resetSettings()">
+                        <i class="fas fa-undo"></i> Reset to Defaults
+                    </button>
+                </div>
+
+                <div class="output-section">
+                    <h2><i class="fas fa-chart-bar"></i> Usage Statistics</h2>
+                    <div class="feature-highlights">
+                        <div class="feature-card">
+                            <i class="fas fa-file-alt"></i>
+                            <h3 id="updatesGenerated">0</h3>
+                            <p>Updates Generated</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-check-circle"></i>
+                            <h3 id="todoListsGenerated">0</h3>
+                            <p>To-Do Lists Created</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-copy"></i>
+                            <h3 id="copiesMade">0</h3>
+                            <p>Copies to Clipboard</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-clock"></i>
+                            <h3 id="timeSaved">0</h3>
+                            <p>Hours Saved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>EWA Generator Tools v2.0 • Built with ❤️ for the EWA Community</p>
+            <p>© 2025 EWA Development Team • All rights reserved</p>
+        </footer>
+    </div>
+
     <script>
+        // Global variables
         let updateCount = 0;
         let todoCount = 0;
+        let updatesGenerated = 0;
+        let todoListsGenerated = 0;
+        let copiesMade = 0;
 
         // Initialize after DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Tab switching
+            // Simulate loading
+            simulateLoading();
+            
+            // Initialize tabs
+            initTabs();
+            
+            // Initialize with some fields
+            addUpdateField();
+            addUpdateField();
+            addUpdateField();
+            addTodoField();
+            addTodoField();
+            addTodoField();
+            
+            // Load settings
+            loadSettings();
+            
+            // Update statistics
+            updateStatistics();
+        });
+
+        // Simulate loading progress
+        function simulateLoading() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingProgress = document.getElementById('loading-progress');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Hide loading screen after a short delay
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                    }, 500);
+                }
+                
+                loadingProgress.style.width = `${progress}%`;
+            }, 200);
+        }
+
+        // Initialize tabs
+        function initTabs() {
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -466,34 +1149,30 @@
                     document.getElementById(targetTab + '-content').classList.add('active');
                 });
             });
-
-            // Initialize with some fields
-            addUpdateField();
-            addUpdateField();
-            addUpdateField();
-            addTodoField();
-            addTodoField();
-            addTodoField();
-        });
+        }
 
         // UPDATE FUNCTIONS
         function addUpdateField() {
             updateCount++;
             const updatesList = document.getElementById('updatesList');
             const updateItem = document.createElement('div');
-            updateItem.className = 'update-item';
+            updateItem.className = 'update-item fade-in';
             updateItem.id = `update-${updateCount}`;
             updateItem.innerHTML = `
                 <span>${updateCount}.</span>
                 <input type="text" placeholder="Update information..." style="margin: 0;">
-                <button onclick="removeUpdate(${updateCount})">✕</button>
+                <button onclick="removeUpdate(${updateCount})"><i class="fas fa-times"></i></button>
             `;
             updatesList.appendChild(updateItem);
         }
 
         function removeUpdate(id) {
-            document.getElementById(`update-${id}`).remove();
-            renumberUpdates();
+            const element = document.getElementById(`update-${id}`);
+            element.style.animation = 'fadeInUp 0.3s ease reverse';
+            setTimeout(() => {
+                element.remove();
+                renumberUpdates();
+            }, 300);
         }
 
         function renumberUpdates() {
@@ -516,12 +1195,12 @@
                 .filter(val => val !== '');
 
             if (!category) {
-                alert('⚠️ Please enter at least a category!');
+                showNotification('⚠️ Please enter at least a category!', 'warning');
                 return;
             }
 
             if (updates.length === 0) {
-                alert('⚠️ Please add at least one update item!');
+                showNotification('⚠️ Please add at least one update item!', 'warning');
                 return;
             }
 
@@ -549,18 +1228,24 @@
             const outputDiv = document.getElementById('updateOutput');
             outputDiv.innerHTML = `
                 <div class="output-section">
-                    <h2>📄 Your EWA Update</h2>
+                    <h2><i class="fas fa-file-alt"></i> Your EWA Update</h2>
                     <div class="discord-preview">
-                        <h3>Discord Preview</h3>
+                        <h3><i class="fab fa-discord"></i> Discord Preview</h3>
                         <pre style="background: #2f3136; color: #dcddde; border: none;">${output}</pre>
                     </div>
                     <pre>${output}</pre>
                 </div>
             `;
 
-            document.getElementById('copyBtn').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'flex';
             document.getElementById('discohookBtn').style.display = 'flex';
             window.generatedUpdate = output;
+            
+            // Update statistics
+            updatesGenerated++;
+            updateStatistics();
+            
+            showNotification('✅ Update generated successfully!', 'success');
         }
 
         // TODO FUNCTIONS
@@ -568,7 +1253,7 @@
             todoCount++;
             const todoList = document.getElementById('todoList');
             const todoItem = document.createElement('div');
-            todoItem.className = 'todo-item';
+            todoItem.className = 'todo-item fade-in';
             todoItem.id = `todo-${todoCount}`;
             todoItem.innerHTML = `
                 <span>☐</span>
@@ -579,13 +1264,17 @@
                     <option value="high">High</option>
                     <option value="urgent">🔥 Urgent</option>
                 </select>
-                <button onclick="removeTodo(${todoCount})">✕</button>
+                <button onclick="removeTodo(${todoCount})"><i class="fas fa-times"></i></button>
             `;
             todoList.appendChild(todoItem);
         }
 
         function removeTodo(id) {
-            document.getElementById(`todo-${id}`).remove();
+            const element = document.getElementById(`todo-${id}`);
+            element.style.animation = 'fadeInUp 0.3s ease reverse';
+            setTimeout(() => {
+                element.remove();
+            }, 300);
         }
 
         function generateTodo() {
@@ -606,7 +1295,7 @@
             });
 
             if (tasks.length === 0) {
-                alert('⚠️ Please add at least one task!');
+                showNotification('⚠️ Please add at least one task!', 'warning');
                 return;
             }
 
@@ -636,31 +1325,191 @@
             const outputDiv = document.getElementById('todoOutput');
             outputDiv.innerHTML = `
                 <div class="output-section">
-                    <h2>✅ Your To-Do List</h2>
+                    <h2><i class="fas fa-check-circle"></i> Your To-Do List</h2>
                     <div class="discord-preview">
-                        <h3>Discord Preview</h3>
+                        <h3><i class="fab fa-discord"></i> Discord Preview</h3>
                         <pre style="background: #2f3136; color: #dcddde; border: none;">${output}</pre>
                     </div>
                     <pre>${output}</pre>
                 </div>
             `;
 
-            document.getElementById('todoCopyBtn').style.display = 'block';
+            document.getElementById('todoCopyBtn').style.display = 'flex';
             document.getElementById('todoDiscohookBtn').style.display = 'flex';
             window.generatedTodo = output;
+            
+            // Update statistics
+            todoListsGenerated++;
+            updateStatistics();
+            
+            showNotification('✅ To-do list generated successfully!', 'success');
+        }
+
+        // TEMPLATE FUNCTIONS
+        function loadTemplate() {
+            const templateSelect = document.getElementById('templateSelect');
+            const selectedTemplate = templateSelect.value;
+            const previewDiv = document.getElementById('templatePreview');
+            const previewContent = document.getElementById('templatePreviewContent');
+            
+            if (!selectedTemplate) {
+                previewDiv.style.display = 'none';
+                return;
+            }
+            
+            let templateContent = '';
+            
+            switch(selectedTemplate) {
+                case 'majorUpdate':
+                    templateContent = `# 🚀 MAJOR UPDATE: New Features!\n## Version 2.0.0\n\n### ✨ NEW FEATURES\n1. | *Completely redesigned user interface*\n2. | *Added 5 new gameplay mechanics*\n3. | *Implemented advanced customization options*\n\n### 🛠️ IMPROVEMENTS\n1. | *Optimized performance by 40%*\n2. | *Enhanced security measures*\n3. | *Improved mobile responsiveness*\n\n---\n*We're excited to share these improvements with you!*`;
+                    break;
+                case 'bugFixes':
+                    templateContent = `# 🐛 BUG FIXES REPORT\n## Version 1.5.2\n\n### ✅ RESOLVED ISSUES\n1. | *Fixed crash when loading large maps*\n2. | *Resolved texture rendering issues*\n3. | *Patched security vulnerability in login system*\n\n### 🔧 TECHNICAL UPDATES\n1. | *Updated dependencies to latest versions*\n2. | *Improved error handling and logging*\n\n---\n*Thank you for your reports and patience!*`;
+                    break;
+                case 'maintenance':
+                    templateContent = `# 🔧 SCHEDULED MAINTENANCE\n## Important Server Notice\n\n### 📅 SCHEDULE\n- **Start:** Saturday, 2:00 AM UTC\n- **End:** Saturday, 6:00 AM UTC\n- **Duration:** 4 hours\n\n### 🛠️ WORK BEING DONE\n1. | *Database optimization*\n2. | *Security patches application*\n3. | *Performance improvements*\n\n### ℹ️ NOTES\n*The server will be unavailable during this time. We apologize for any inconvenience.*`;
+                    break;
+                case 'event':
+                    templateContent = `# 🎉 COMMUNITY EVENT\n## Winter Festival 2025\n\n### 📅 EVENT DETAILS\n- **Date:** December 15-31, 2025\n- **Time:** All day\n- **Location:** Winter Village\n\n### 🎁 SPECIAL FEATURES\n1. | *Exclusive winter-themed items*\n2. | *Limited-time quests and challenges*\n3. | *Holiday decorations throughout the world*\n\n### 🏆 REWARDS\n*Complete all event challenges to earn unique cosmetics and items!*\n\n---\n*Don't miss out on the festive fun!*`;
+                    break;
+                case 'patchNotes':
+                    templateContent = `# 📋 PATCH NOTES\n## Version 1.3.7\n\n### 🎮 GAMEPLAY CHANGES\n1. | *Adjusted weapon balance*\n2. | *Fixed spawn point issues*\n3. | *Improved collision detection*\n\n### 🖼️ VISUAL UPDATES\n1. | *Enhanced lighting effects*\n2. | *Updated character models*\n3. | *Improved particle systems*\n\n### 🐛 BUG FIXES\n1. | *Fixed memory leak in renderer*\n2. | *Resolved audio sync issues*\n3. | *Patched exploit in crafting system*`;
+                    break;
+            }
+            
+            previewContent.textContent = templateContent;
+            previewDiv.style.display = 'block';
+        }
+
+        function useTemplate() {
+            const templateSelect = document.getElementById('templateSelect');
+            const selectedTemplate = templateSelect.value;
+            
+            if (!selectedTemplate) {
+                showNotification('⚠️ Please select a template first!', 'warning');
+                return;
+            }
+            
+            // Switch to updates tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.tab[data-tab="updates"]').classList.add('active');
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.getElementById('updates-content').classList.add('active');
+            
+            // Clear existing fields
+            document.getElementById('version').value = '2.0.0';
+            document.getElementById('category').value = 'MAJOR UPDATE';
+            document.getElementById('description').value = 'Exciting new features and improvements';
+            document.getElementById('subcategory').value = '';
+            document.getElementById('additional').value = 'We hope you enjoy these new additions!';
+            
+            // Clear update items
+            document.getElementById('updatesList').innerHTML = '';
+            updateCount = 0;
+            
+            // Add template-specific items
+            switch(selectedTemplate) {
+                case 'majorUpdate':
+                    addUpdateField();
+                    document.querySelector('.update-item:last-child input').value = 'Completely redesigned user interface';
+                    addUpdateField();
+                    document.querySelector('.update-item:last-child input').value = 'Added 5 new gameplay mechanics';
+                    addUpdateField();
+                    document.querySelector('.update-item:last-child input').value = 'Implemented advanced customization options';
+                    break;
+                case 'bugFixes':
+                    addUpdateField();
+                    document.querySelector('.update-item:last-child input').value = 'Fixed crash when loading large maps';
+                    addUpdateField();
+                    document.querySelector('.update-item:last-child input').value = 'Resolved texture rendering issues';
+                    addUpdateField();
+                    document.querySelector('.update-item:last-child input').value = 'Patched security vulnerability in login system';
+                    break;
+            }
+            
+            showNotification('✅ Template applied successfully!', 'success');
+        }
+
+        // SETTINGS FUNCTIONS
+        function changeTheme() {
+            const themeSelect = document.getElementById('themeSelect');
+            const selectedTheme = themeSelect.value;
+            
+            // This would typically change CSS variables
+            showNotification(`🎨 Theme changed to ${selectedTheme}`, 'info');
+        }
+
+        function saveSettings() {
+            const autoSave = document.getElementById('autoSave').checked;
+            const animations = document.getElementById('animations').checked;
+            const exportFormat = document.getElementById('exportFormat').value;
+            
+            // Save to localStorage
+            localStorage.setItem('ewaAutoSave', autoSave);
+            localStorage.setItem('ewaAnimations', animations);
+            localStorage.setItem('ewaExportFormat', exportFormat);
+            
+            showNotification('✅ Settings saved successfully!', 'success');
+        }
+
+        function resetSettings() {
+            document.getElementById('autoSave').checked = true;
+            document.getElementById('animations').checked = true;
+            document.getElementById('exportFormat').value = 'discord';
+            document.getElementById('themeSelect').value = 'default';
+            
+            showNotification('✅ Settings reset to defaults!', 'success');
+        }
+
+        function loadSettings() {
+            const autoSave = localStorage.getItem('ewaAutoSave');
+            const animations = localStorage.getItem('ewaAnimations');
+            const exportFormat = localStorage.getItem('ewaExportFormat');
+            
+            if (autoSave !== null) document.getElementById('autoSave').checked = autoSave === 'true';
+            if (animations !== null) document.getElementById('animations').checked = animations === 'true';
+            if (exportFormat !== null) document.getElementById('exportFormat').value = exportFormat;
+        }
+
+        function updateStatistics() {
+            document.getElementById('updatesGenerated').textContent = updatesGenerated;
+            document.getElementById('todoListsGenerated').textContent = todoListsGenerated;
+            document.getElementById('copiesMade').textContent = copiesMade;
+            document.getElementById('timeSaved').textContent = Math.floor((updatesGenerated + todoListsGenerated) * 0.5);
+            
+            // Save to localStorage
+            localStorage.setItem('ewaUpdatesGenerated', updatesGenerated);
+            localStorage.setItem('ewaTodoListsGenerated', todoListsGenerated);
+            localStorage.setItem('ewaCopiesMade', copiesMade);
+        }
+
+        function loadStatistics() {
+            const savedUpdates = localStorage.getItem('ewaUpdatesGenerated');
+            const savedTodoLists = localStorage.getItem('ewaTodoListsGenerated');
+            const savedCopies = localStorage.getItem('ewaCopiesMade');
+            
+            if (savedUpdates !== null) updatesGenerated = parseInt(savedUpdates);
+            if (savedTodoLists !== null) todoListsGenerated = parseInt(savedTodoLists);
+            if (savedCopies !== null) copiesMade = parseInt(savedCopies);
         }
 
         // SHARED FUNCTIONS
         function copyToClipboard(type) {
             const text = type === 'update' ? window.generatedUpdate : window.generatedTodo;
             navigator.clipboard.writeText(text).then(() => {
-                showNotification('✅ Copied to clipboard!');
+                showNotification('✅ Copied to clipboard!', 'success');
                 const btn = type === 'update' ? document.getElementById('copyBtn') : document.getElementById('todoCopyBtn');
                 const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ Copied!';
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                 }, 2000);
+                
+                // Update statistics
+                copiesMade++;
+                updateStatistics();
+            }).catch(err => {
+                showNotification('❌ Failed to copy to clipboard', 'error');
             });
         }
 
@@ -669,22 +1518,41 @@
             const encoded = encodeURIComponent(text);
             const discohookUrl = `https://discohook.org/?data=${encoded}`;
             window.open(discohookUrl, '_blank');
-            showNotification('🚀 Opening Discohook...');
+            showNotification('🚀 Opening Discohook...', 'info');
         }
 
-        function showNotification(message) {
+        function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = 'copy-notification';
-            notification.textContent = message;
+            
+            // Set color based on type
+            if (type === 'success') {
+                notification.style.background = 'var(--success)';
+            } else if (type === 'warning') {
+                notification.style.background = 'var(--warning)';
+            } else if (type === 'error') {
+                notification.style.background = 'var(--danger)';
+            } else {
+                notification.style.background = 'var(--info)';
+            }
+            
+            // Add appropriate icon
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            if (type === 'error') icon = 'times-circle';
+            
+            notification.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.style.animation = 'slideIn 0.3s ease-out reverse';
-                setTimeout(() => notification.remove(), 300);
-            }, 2500);
+                notification.style.animation = 'slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
+                setTimeout(() => notification.remove(), 400);
+            }, 3000);
         }
+
+        // Load statistics on page load
+        loadStatistics();
     </script>
-</body>
-</html>
 </body>
 </html>
