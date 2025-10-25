@@ -300,6 +300,17 @@
             font-size: 0.8rem;
             border: 1px solid #2a2a2a;
         }
+
+        .rank-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -333,10 +344,11 @@
             
             <div class="filter-container">
                 <button class="filter-btn active" data-filter="all">All Staff</button>
+                <button class="filter-btn" data-filter="owner">Owners</button>
                 <button class="filter-btn" data-filter="admin">Administration</button>
                 <button class="filter-btn" data-filter="mod">Moderation</button>
                 <button class="filter-btn" data-filter="dev">Development</button>
-                <button class="filter-btn" data-filter="support">Support</button>
+                <button class="filter-btn" data-filter="trial">Trial Staff</button>
             </div>
             
             <div class="staff-grid" id="staffContainer">
@@ -352,73 +364,254 @@
     </footer>
 
     <script>
-        // Staff data - you can easily add/remove staff members here
+        // Staff data with all the provided information
         const staffData = [
             {
                 id: 1,
                 name: "7k",
-                role: "Lead Developer & Server Admin",
-                department: "admin",
-                description: "Founder and lead developer with expertise in Unturned server administration, game development, and custom asset creation.",
-                avatar: "👨‍💻",
-                discord: "7k#1234",
-                steam: "https://steamcommunity.com/profiles/76561199437362174/",
-                servers: ["PeekSeek", "Hypase Network"]
+                role: "Owner",
+                department: "owner",
+                description: "Lead developer and server administrator with expertise in Unturned server administration.",
+                avatar: "👑",
+                discord: "7k",
+                steam: "https://steamcommunity.com/id/SWR7K/",
+                steam64: "76561199437362174",
+                ign: "7k",
+                servers: ["Hypase Network"]
             },
             {
                 id: 2,
                 name: "Dutch",
-                role: "Hypase Owner",
-                department: "Developer",
-                description: "Experienced moderator ensuring fair play and positive community interactions across all servers.",
-                avatar: "🛡️",
-                discord: "duin0813",
-                steam: "https://steamcommunity.com/profiles/76561198142439980",
-                servers: ["Hypase Shop", "Hypase Roleplay Server"]
+                role: "Owner",
+                department: "owner",
+                description: "Co-owner and administrator of the Hypase Network.",
+                avatar: "👑",
+                discord: "Dutch",
+                steam: "",
+                steam64: "",
+                ign: "Dutch",
+                servers: ["Hypase Network"]
             },
             {
                 id: 3,
                 name: "Alpha",
-                role: "Hypase Co-Owner",
-                department: "support",
-                description: "Dedicated to fostering a positive community environment and assisting players with any issues.",
+                role: "Co-Owner",
+                department: "owner",
+                description: "Co-owner supporting server operations and community management.",
                 avatar: "🌟",
-                discord: ".tarnish",
-                steam: "https://steamcommunity.com/id/0939827466/",
-                servers: ["Hypase Network", "Community Hub"]
+                discord: "Alpha",
+                steam: "",
+                steam64: "",
+                ign: "Alpha",
+                servers: ["Hypase Network"]
             },
             {
                 id: 4,
-                name: "Jordan",
-                role: "Game Developer",
-                department: "dev",
-                description: "Specializes in creating custom maps, assets, and game mechanics for our servers.",
-                avatar: "🎮",
-                discord: "JordanDev#3456",
-                steam: "https://steamcommunity.com/id/jordandev",
-                servers: ["All Servers"]
+                name: "OGMrB",
+                role: "Community Manager",
+                department: "admin",
+                description: "Management team member focused on community engagement and events.",
+                avatar: "💬",
+                discord: "OGMrB",
+                steam: "https://steamcommunity.com/id/7656119940603509/",
+                steam64: "76561199406035099",
+                ign: "OGMrB",
+                servers: ["Hypase Network"]
             },
             {
                 id: 5,
-                name: "Riley",
-                role: "Support Staff",
-                department: "support",
-                description: "Provides technical support and assistance to players experiencing issues with our servers.",
-                avatar: "🔧",
-                discord: "RileySupport#7890",
-                steam: "https://steamcommunity.com/id/rileysupport",
-                servers: ["PeekSeek", "Hypase Network"]
+                name: "mr. Ayyy",
+                role: "Senior Administrator",
+                department: "admin",
+                description: "Senior administrator and staff manager ensuring smooth server operations.",
+                avatar: "🛡️",
+                discord: "patofnice",
+                steam: "https://steamcommunity.com/profiles/76561199196558453/",
+                steam64: "76561199196558453",
+                ign: "ayyy",
+                servers: ["Hypase Network"]
             },
             {
                 id: 6,
-                name: "Casey",
-                role: "Event Coordinator",
+                name: "FoxEyeDye [Fox]",
+                role: "Administrator",
+                department: "admin",
+                description: "Administrator and community manager handling player support and server management.",
+                avatar: "🦊",
+                discord: "FoxEyeDye#9905",
+                steam: "https://steamcommunity.com/id/FoxEyeDye/",
+                steam64: "76561198258300439",
+                ign: "FoxEyeDye",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 7,
+                name: "Gherkin Schnitzel",
+                role: "Administrator",
+                department: "admin",
+                description: "Administrator maintaining server rules and player experience.",
+                avatar: "🥒",
+                discord: "Gherkin Schnitzel",
+                steam: "",
+                steam64: "",
+                ign: "Gherkin Schnitzel",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 8,
+                name: "Shape",
+                role: "Administrator",
+                department: "admin",
+                description: "Administrator focused on server moderation and player support.",
+                avatar: "🔷",
+                discord: "shape (mixedpizzarolls)",
+                steam: "https://steamcommunity.com/profiles/76561199783289908/",
+                steam64: "76561199783289908",
+                ign: "shape",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 9,
+                name: "Synx",
+                role: "Administrator",
+                department: "admin",
+                description: "Administrator ensuring fair play and positive community interactions.",
+                avatar: "⚡",
+                discord: "synx404",
+                steam: "https://steamcommunity.com/id/keepcrying404/",
+                steam64: "76561198349064743",
+                ign: "Synx",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 10,
+                name: "Biggie",
+                role: "Moderator",
                 department: "mod",
-                description: "Organizes and manages community events, tournaments, and special server activities.",
-                avatar: "🎉",
-                discord: "CaseyEvents#2345",
-                steam: "https://steamcommunity.com/id/caseyevents",
-                servers: ["All Servers"]
+                description: "Moderator maintaining server rules and assisting players.",
+                avatar: "🎵",
+                discord: "Biggie",
+                steam: "https://steamcommunity.com/profiles/76561198816009307/",
+                steam64: "76561198816009307",
+                ign: "Boahor",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 11,
+                name: "devi",
+                role: "Moderator",
+                description: "Experienced moderator ensuring fair play and positive community interactions.",
+                department: "mod",
+                avatar: "🌟",
+                discord: "lmnimium",
+                steam: "https://steamcommunity.com/profiles/76561198961798679/",
+                steam64: "76561198961798679",
+                ign: "devijfde",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 12,
+                name: "OptimalNerd",
+                role: "Moderator",
+                department: "mod",
+                description: "Moderator focused on maintaining server rules and player experience.",
+                avatar: "🎮",
+                discord: "optimalmerd",
+                steam: "https://steamcommunity.com/id/DemonRaptorHunter/",
+                steam64: "76561198408780328",
+                ign: "Ghost",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 13,
+                name: "SquishY",
+                role: "Staff Manager",
+                department: "admin",
+                description: "Staff manager overseeing moderator team and operations.",
+                avatar: "🐙",
+                discord: "SquishY",
+                steam: "https://steamcommunity.com/profiles/76561199050250053/",
+                steam64: "76561199050250053",
+                ign: "SquishY",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 14,
+                name: "HOLY MOLY",
+                role: "Trial Moderator",
+                department: "trial",
+                description: "Trial moderator learning server operations and community management.",
+                avatar: "✨",
+                discord: "HOLY MOLY",
+                steam: "https://steamcommunity.com/id/jai_argan/",
+                steam64: "76561198862573916",
+                ign: "HALLO",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 15,
+                name: "Archain",
+                role: "Trial Moderator",
+                department: "trial",
+                description: "Trial moderator gaining experience in server administration.",
+                avatar: "🎯",
+                discord: "Archain",
+                steam: "https://steamcommunity.com/profiles/76561198375483179/",
+                steam64: "76561198375483179",
+                ign: "Vojtas Games",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 16,
+                name: "Linn",
+                role: "Trial Moderator",
+                department: "trial",
+                description: "Trial moderator supporting the server community.",
+                avatar: "❄️",
+                discord: "♥. * ･ ｡ﾟꗟn𝔬𝒘𝑓𝒍aķ𝚎. * ･ ｡ﾟ♥",
+                steam: "https://steamcommunity.com/profiles/76561199266181440/",
+                steam64: "76561199266181440",
+                ign: "Snowflake",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 17,
+                name: "lejon",
+                role: "Trial Moderator",
+                department: "trial",
+                description: "Trial moderator learning server operations.",
+                avatar: "🦁",
+                discord: "Weon",
+                steam: "https://steamcommunity.com/id/8707030780708707803/",
+                steam64: "76561199229189825",
+                ign: "Weon Barbaloski",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 18,
+                name: "teddir",
+                role: "Trial Moderator",
+                department: "trial",
+                description: "Trial moderator supporting server community.",
+                avatar: "🧸",
+                discord: "teddir",
+                steam: "https://steamcommunity.com/profiles/76561198305253815/",
+                steam64: "76561198305253815",
+                ign: "TED",
+                servers: ["Hypase Network"]
+            },
+            {
+                id: 19,
+                name: "CheezusChrist",
+                role: "Developer",
+                department: "dev",
+                description: "Map developer creating custom content and environments for the server.",
+                avatar: "🧀",
+                discord: "CheezusChrist(Map Guy)",
+                steam: "",
+                steam64: "",
+                ign: "CheezusChrist",
+                servers: ["Hypase Network"]
             }
         ];
 
@@ -439,9 +632,14 @@
                 
                 card.innerHTML = `
                     <div class="staff-avatar">${member.avatar}</div>
+                    <div class="rank-badge">${member.role}</div>
                     <h3 class="staff-name">${member.name}</h3>
-                    <p class="staff-role">${member.role}</p>
                     <p class="staff-description">${member.description}</p>
+                    <div class="staff-info">
+                        <p><strong>Discord:</strong> ${member.discord}</p>
+                        ${member.ign ? `<p><strong>IGN:</strong> ${member.ign}</p>` : ''}
+                        ${member.steam64 ? `<p><strong>Steam64:</strong> ${member.steam64}</p>` : ''}
+                    </div>
                     <div class="server-badges">
                         ${serverBadges}
                     </div>
