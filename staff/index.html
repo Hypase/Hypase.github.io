@@ -131,7 +131,7 @@
         /* Staff Grid Styles */
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -179,13 +179,6 @@
             color: #9b59b6;
             margin-bottom: 1rem;
             font-weight: 500;
-        }
-
-        .staff-description {
-            color: #cccccc;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
         }
 
         .staff-contact {
@@ -303,20 +296,9 @@
             border: 1px solid #2a2a2a;
         }
 
-        .rank-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #9b59b6, #8e44ad);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
         .staff-info {
             margin: 1rem 0;
-            text-align: left;
+            text-align: center;
             font-size: 0.85rem;
         }
 
@@ -381,14 +363,13 @@
     </footer>
 
     <script>
-        // Staff data with all the provided information and stock profile images
+        // Staff data with unique images and no descriptions
         const staffData = [
             {
                 id: 1,
                 name: "7k",
                 role: "Owner & Developer",
                 department: "owner",
-                description: "Lead developer and server administrator with expertise in Unturned server administration.",
                 avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
                 discord: "7k",
                 steam: "https://steamcommunity.com/id/SWR7K/",
@@ -401,11 +382,10 @@
                 name: "Dutch",
                 role: "Owner & Developer",
                 department: "owner",
-                description: "Co-owner and administrator of the Hypase Network with development experience.",
                 avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=400&h=400&fit=crop&crop=face",
                 discord: "Dutch",
-                steam: "https://steamcommunity.com/profiles/76561199437362174",
-                steam64: "76561199437362174",
+                steam: null,
+                steam64: null,
                 ign: "Dutch",
                 servers: ["Hypase Network"]
             },
@@ -414,11 +394,10 @@
                 name: "Alpha",
                 role: "Co-Owner & Developer",
                 department: "owner",
-                description: "Co-owner supporting server operations, community management, and development.",
                 avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
                 discord: "Alpha",
-                steam: "https://steamcommunity.com/profiles/76561199437362174",
-                steam64: "76561199437362174",
+                steam: null,
+                steam64: null,
                 ign: "Alpha",
                 servers: ["Hypase Network"]
             },
@@ -427,7 +406,6 @@
                 name: "OGMrB",
                 role: "Community Manager",
                 department: "admin",
-                description: "Management team member focused on community engagement and events.",
                 avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
                 discord: "OGMrB",
                 steam: "https://steamcommunity.com/id/7656119940603509/",
@@ -440,7 +418,6 @@
                 name: "mr. Ayyy",
                 role: "Staff Manager",
                 department: "admin",
-                description: "Staff manager overseeing all staff operations and ensuring smooth server management.",
                 avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
                 discord: "patofnice",
                 steam: "https://steamcommunity.com/profiles/76561199196558453/",
@@ -453,7 +430,6 @@
                 name: "FoxEyeDye [Fox]",
                 role: "Administrator",
                 department: "admin",
-                description: "Administrator and community manager handling player support and server management.",
                 avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
                 discord: "FoxEyeDye#9905",
                 steam: "https://steamcommunity.com/id/FoxEyeDye/",
@@ -466,11 +442,10 @@
                 name: "Gherkin Schnitzel",
                 role: "Administrator",
                 department: "admin",
-                description: "Administrator maintaining server rules and player experience.",
                 avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop&crop=face",
                 discord: "Gherkin Schnitzel",
-                steam: "https://steamcommunity.com/profiles/76561199437362174",
-                steam64: "76561199437362174",
+                steam: null,
+                steam64: null,
                 ign: "Gherkin Schnitzel",
                 servers: ["Hypase Network"]
             },
@@ -479,7 +454,6 @@
                 name: "Shape",
                 role: "Administrator",
                 department: "admin",
-                description: "Administrator focused on server moderation and player support.",
                 avatar: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=400&h=400&fit=crop&crop=face",
                 discord: "shape (mixedpizzarolls)",
                 steam: "https://steamcommunity.com/profiles/76561199783289908/",
@@ -492,7 +466,6 @@
                 name: "Synx",
                 role: "Administrator",
                 department: "admin",
-                description: "Administrator ensuring fair play and positive community interactions.",
                 avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop&crop=face",
                 discord: "synx404",
                 steam: "https://steamcommunity.com/id/keepcrying404/",
@@ -505,7 +478,6 @@
                 name: "Biggie",
                 role: "Moderator",
                 department: "mod",
-                description: "Moderator maintaining server rules and assisting players.",
                 avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&h=400&fit=crop&crop=face",
                 discord: "Biggie",
                 steam: "https://steamcommunity.com/profiles/76561198816009307/",
@@ -517,7 +489,6 @@
                 id: 11,
                 name: "devi",
                 role: "Senior Moderator",
-                description: "Senior moderator ensuring fair play and positive community interactions.",
                 department: "mod",
                 avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face",
                 discord: "lmnimium",
@@ -531,7 +502,6 @@
                 name: "SquishY",
                 role: "Staff Manager",
                 department: "admin",
-                description: "Staff manager overseeing moderator team and operations.",
                 avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
                 discord: "SquishY",
                 steam: "https://steamcommunity.com/profiles/76561199050250053/",
@@ -544,7 +514,6 @@
                 name: "HOLY MOLY",
                 role: "Trial Moderator",
                 department: "trial",
-                description: "Trial moderator learning server operations and community management.",
                 avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=400&h=400&fit=crop&crop=face",
                 discord: "HOLY MOLY",
                 steam: "https://steamcommunity.com/id/jai_argan/",
@@ -557,7 +526,6 @@
                 name: "Archain",
                 role: "Trial Moderator",
                 department: "trial",
-                description: "Trial moderator gaining experience in server administration.",
                 avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
                 discord: "Archain",
                 steam: "https://steamcommunity.com/profiles/76561198375483179/",
@@ -570,7 +538,6 @@
                 name: "Linn",
                 role: "Trial Moderator",
                 department: "trial",
-                description: "Trial moderator supporting the server community.",
                 avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face",
                 discord: "♥. * ･ ｡ﾟꗟn𝔬𝒘𝑓𝒍aķ𝚎. * ･ ｡ﾟ♥",
                 steam: "https://steamcommunity.com/profiles/76561199266181440/",
@@ -583,7 +550,6 @@
                 name: "lejon",
                 role: "Trial Moderator",
                 department: "trial",
-                description: "Trial moderator learning server operations.",
                 avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
                 discord: "Weon",
                 steam: "https://steamcommunity.com/id/8707030780708707803/",
@@ -596,7 +562,6 @@
                 name: "teddir",
                 role: "Trial Moderator",
                 department: "trial",
-                description: "Trial moderator supporting server community.",
                 avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
                 discord: "teddir",
                 steam: "https://steamcommunity.com/profiles/76561198305253815/",
@@ -609,11 +574,10 @@
                 name: "CheezusChrist",
                 role: "Developer",
                 department: "dev",
-                description: "Map developer creating custom content and environments for the server.",
                 avatar: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=400&h=400&fit=crop&crop=face",
                 discord: "CheezusChrist(Map Guy)",
-                steam: "https://steamcommunity.com/profiles/76561199437362174",
-                steam64: "76561199437362174",
+                steam: null,
+                steam64: null,
                 ign: "CheezusChrist",
                 servers: ["Hypase Network"]
             }
@@ -638,9 +602,8 @@
                     <div class="staff-avatar">
                         <img src="${member.avatar}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/120/9b59b6/ffffff?text=${member.name.charAt(0)}'">
                     </div>
-                    <div class="rank-badge">${member.role}</div>
                     <h3 class="staff-name">${member.name}</h3>
-                    <p class="staff-description">${member.description}</p>
+                    <p class="staff-role">${member.role}</p>
                     <div class="staff-info">
                         <p><strong>Discord:</strong> ${member.discord}</p>
                         ${member.ign ? `<p><strong>IGN:</strong> ${member.ign}</p>` : ''}
