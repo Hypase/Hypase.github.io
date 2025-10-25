@@ -22,22 +22,6 @@
             position: relative;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://i.imgur.com/5wQ4OzF.jpeg');
-            background-size: 800px 800px;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.15;
-            z-index: 0;
-            pointer-events: none;
-        }
-
         .container {
             max-width: 1000px;
             width: 100%;
@@ -55,6 +39,19 @@
             padding: 40px;
             text-align: center;
             border-bottom: 5px solid #ff5252;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .header-logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .header-text {
+            flex: 1;
         }
 
         .header h1 {
@@ -327,8 +324,12 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔥 EWA TOOLS 🔥</h1>
-            <p>Update & To-Do Generator</p>
+            <img src="https://i.imgur.com/5wQ4OzF.jpeg" alt="EWA Logo" class="header-logo">
+            <div class="header-text">
+                <h1>EWA TOOLS</h1>
+                <p>Update & To-Do Generator</p>
+            </div>
+            <img src="https://i.imgur.com/5wQ4OzF.jpeg" alt="EWA Logo" class="header-logo">
         </div>
         
         <div class="tabs">
@@ -683,5 +684,7 @@
             }, 2500);
         }
     </script>
+</body>
+</html>
 </body>
 </html>
