@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWA Life RP - FiveM Roleplay Server</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --gradient: linear-gradient(135deg, #3498db, #2c3e50);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background: #c0392b;
+        }
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .server-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Features Section */
+        .features {
+            background: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        /* Server Info Section */
+        .server-info {
+            background: #f8f9fa;
+        }
+        
+        .info-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background: white;
+            border: none;
+            border-radius: 4px;
+            margin: 0 5px 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .tab-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .rules-list {
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .rules-list li {
+            margin-bottom: 10px;
+            break-inside: avoid;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            background: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 200px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Staff Section */
+        .staff {
+            background: #f8f9fa;
+        }
+        
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .staff-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .staff-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .staff-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .staff-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .staff-info {
+            padding: 20px;
+        }
+        
+        .staff-info h3 {
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .staff-role {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background: white;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .rules-list {
+                columns: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 80px);
+                background: var(--dark);
+                transition: left 0.3s;
+                z-index: 999;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .server-stats {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/50x50/3498db/ffffff?text=EWA" alt="EWA Life RP Logo">
+                <h1>EWA <span>Life RP</span></h1>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#server-info">Server Info</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#staff">Staff</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#" class="btn btn-accent">Connect Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h2>Welcome to EWA Life RP</h2>
+            <p>Experience the most immersive FiveM roleplay server with custom scripts, jobs, economy, and an amazing community.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn">Join Our Discord</a>
+                <a href="#" class="btn btn-accent">Connect to Server</a>
+            </div>
+            <div class="server-stats">
+                <div class="stat">
+                    <div class="stat-number">256</div>
+                    <div class="stat-label">Players Online</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1,250</div>
+                    <div class="stat-label">Total Members</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Server Uptime</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <h2 class="section-title">Server Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Custom Jobs</h3>
+                    <p>Choose from a wide variety of custom jobs including police, EMS, mechanic, and more with unique mechanics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Housing System</h3>
+                    <p>Purchase and customize your own property with our advanced housing system and interior customization.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Vehicle Customization</h3>
+                    <p>Extensive vehicle customization with performance upgrades, visual modifications, and unique handling.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Advanced Anti-Cheat</h3>
+                    <p>Our custom anti-cheat system ensures a fair and enjoyable experience for all players.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Dynamic Economy</h3>
+                    <p>Experience a realistic economy with supply and demand affecting prices across the server.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Custom Phone</h3>
+                    <p>Use our custom smartphone with apps for banking, contacts, messaging, and more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Server Info Section -->
+    <section class="section server-info" id="server-info">
+        <div class="container">
+            <h2 class="section-title">Server Information</h2>
+            <div class="info-tabs">
+                <button class="tab-btn active" data-tab="rules">Server Rules</button>
+                <button class="tab-btn" data-tab="whitelist">Whitelist Application</button>
+                <button class="tab-btn" data-tab="connect">How to Connect</button>
+                <button class="tab-btn" data-tab="updates">Recent Updates</button>
+            </div>
+            <div class="tab-content active" id="rules">
+                <h3>Server Rules & Guidelines</h3>
+                <p>To ensure everyone has an enjoyable experience, please follow these rules:</p>
+                <ul class="rules-list">
+                    <li>No RDM (Random Deathmatch) - Do not kill other players without valid RP reason</li>
+                    <li>No VDM (Vehicle Deathmatch) - Do not use vehicles as weapons</li>
+                    <li>Respect all players and staff members</li>
+                    <li>No metagaming - Using OOC information in character</li>
+                    <li>No powergaming - Forcing actions on other players</li>
+                    <li>Stay in character at all times while in-game</li>
+                    <li>No cheating, exploiting, or hacking</li>
+                    <li>Follow all instructions from staff members</li>
+                    <li>Use appropriate voice chat volume and avoid background noise</li>
+                    <li>No discrimination, racism, or hate speech of any kind</li>
+                </ul>
+            </div>
+            <div class="tab-content" id="whitelist">
+                <h3>Whitelist Application</h3>
+                <p>To join our server, you need to complete the whitelist application process:</p>
+                <ol>
+                    <li>Join our Discord server</li>
+                    <li>Read the rules and information channels</li>
+                    <li>Complete the application form in #whitelist-application</li>
+                    <li>Wait for staff review (typically 24-48 hours)</li>
+                    <li>Once approved, you'll receive the server connect information</li>
+                </ol>
+                <p>Our whitelist helps maintain a high-quality roleplay environment and keeps out trolls and rule-breakers.</p>
+                <a href="#" class="btn">Join Discord</a>
+            </div>
+            <div class="tab-content" id="connect">
+                <h3>How to Connect</h3>
+                <p>Follow these steps to connect to our server:</p>
+                <ol>
+                    <li>Ensure you have FiveM installed and updated</li>
+                    <li>Click "Play" and then "Servers"</li>
+                    <li>In the search bar, type "EWA Life RP"</li>
+                    <li>Click on our server in the results</li>
+                    <li>Click "Connect" and wait for loading to complete</li>
+                </ol>
+                <p>Direct Connect: <code>connect ewaliferp.com</code></p>
+                <a href="#" class="btn">Connect Now</a>
+            </div>
+            <div class="tab-content" id="updates">
+                <h3>Recent Updates</h3>
+                <p>Here are our most recent server updates:</p>
+                <ul>
+                    <li><strong>v2.1.5</strong> - Added new vehicle dealerships and improved car customization</li>
+                    <li><strong>v2.1.4</strong> - Implemented new housing system with interior customization</li>
+                    <li><strong>v2.1.3</strong> - Added new jobs and improved economy balance</li>
+                    <li><strong>v2.1.2</strong> - Fixed various bugs and improved server performance</li>
+                    <li><strong>v2.1.1</strong> - Updated police and EMS systems with new features</li>
+                </ul>
+                <p>Check our Discord for the full changelog and upcoming features!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Server Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="EWA Life RP City View">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Police Department">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Custom Vehicles">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1596008194705-8bda37a1d6c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Housing System">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Business District">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Countryside">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section class="section staff" id="staff">
+        <div class="container">
+            <h2 class="section-title">Our Staff Team</h2>
+            <div class="staff-grid">
+                <div class="staff-card">
+                    <div class="staff-img">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Server Owner">
+                    </div>
+                    <div class="staff-info">
+                        <h3>Alex Johnson</h3>
+                        <div class="staff-role">Server Owner</div>
+                        <p>Founder and lead developer of EWA Life RP with 5+ years of experience.</p>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-img">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Head Admin">
+                    </div>
+                    <div class="staff-info">
+                        <h3>Sarah Miller</h3>
+                        <div class="staff-role">Head Administrator</div>
+                        <p>Manages the staff team and ensures smooth server operations.</p>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-img">
+                        <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Senior Admin">
+                    </div>
+                    <div class="staff-info">
+                        <h3>Michael Chen</h3>
+                        <div class="staff-role">Senior Administrator</div>
+                        <p>Handles player disputes and oversees major server events.</p>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-img">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Community Manager">
+                    </div>
+                    <div class="staff-info">
+                        <h3>David Wilson</h3>
+                        <div class="staff-role">Community Manager</div>
+                        <p>Manages Discord, social media, and community engagement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I join the server?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To join our server, you need to complete the whitelist application process. Join our Discord server, read the rules, and submit an application in the #whitelist-application channel. Once approved, you'll receive connection details.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is there a cost to play on the server?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No, EWA Life RP is completely free to play. We do offer optional donations which provide cosmetic benefits but never pay-to-win advantages.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What makes EWA Life RP different from other servers?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our server features custom-developed scripts, a balanced economy, active staff, and a strong focus on quality roleplay. We regularly update with new content and listen to community feedback.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I create my own business?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We have a player-owned business system. You can apply to start your own business through our business application process on Discord.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How often is the server updated?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We release minor updates weekly and major content updates monthly. Our development team is constantly working on new features and improvements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EWA Life RP</h3>
+                    <p>The premier FiveM roleplay experience with custom scripts, jobs, and an amazing community. Join us today!</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#server-info">Server Info</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#staff">Staff</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Server Info</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Server Status</a></li>
+                        <li><a href="#">Rules & Guidelines</a></li>
+                        <li><a href="#">Whitelist Application</a></li>
+                        <li><a href="#">Player Support</a></li>
+                        <li><a href="#">Bug Reports</a></li>
+                        <li><a href="#">Suggestions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-server"></i> Server IP: connect.ewaliferp.com</li>
+                        <li><i class="fab fa-discord"></i> Discord: discord.gg/ewaliferp</li>
+                        <li><i class="fas fa-envelope"></i> Email: support@ewaliferp.com</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 15px;">Join Our Discord</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 EWA Life RP. All rights reserved. This server is not affiliated with Rockstar Games.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Tab System
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.querySelector('nav').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
