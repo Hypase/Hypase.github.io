@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hypase Staff</title>
+    <title>Hypase Staff Directory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #9b59b6;
+            --primary-dark: #8e44ad;
+            --primary-light: #c19bf0;
+            --bg-dark: #0a0a0a;
+            --bg-card: #111111;
+            --bg-card-hover: #151515;
+            --border: #2a2a2a;
+            --text: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #666666;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --radius: 12px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,26 +33,74 @@
 
         body {
             font-family: 'JetBrains Mono', 'Courier New', monospace;
-            background: #0a0a0a;
-            color: #ffffff;
+            background: var(--bg-dark);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
+        .loading-logo {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header Styles */
         header {
             background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: var(--shadow);
         }
 
         nav {
@@ -40,6 +108,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
+            transition: var(--transition);
         }
 
         .logo-container {
@@ -52,18 +121,20 @@
             height: 32px;
             width: auto;
             opacity: 0.9;
-            transition: opacity 0.3s ease;
+            transition: var(--transition);
         }
 
         .logo-container img:hover {
             opacity: 1;
+            transform: rotate(5deg);
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #9b59b6;
+            color: var(--primary);
             font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
         }
 
         .nav-links {
@@ -73,187 +144,666 @@
         }
 
         .nav-links a {
-            color: #cccccc;
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
             font-weight: 400;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--primary);
+            transition: var(--transition);
         }
 
         .nav-links a:hover {
-            color: #9b59b6;
+            color: var(--primary);
         }
 
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
         main {
             margin-top: 80px;
             padding: 2rem 0;
+            min-height: calc(100vh - 200px);
         }
 
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
         .hero-section {
-            min-height: 30vh;
+            min-height: 60vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 2rem 0;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-content {
             max-width: 800px;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #ffffff;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text);
             font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.5s forwards;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
-            color: #9b59b6;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
             font-weight: 400;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.8s forwards;
         }
 
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 1.1s forwards;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 1.4s forwards;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section Styles */
         .section {
-            margin: 4rem 0;
+            margin: 6rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #ffffff;
-            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text);
+            font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            position: relative;
         }
 
-        /* Staff Grid Styles */
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Filter Styles */
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(155, 89, 182, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .filter-btn:hover:before {
+            left: 100%;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--text);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Staff Grid */
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
             margin-top: 2rem;
         }
 
         .staff-card {
-            background: #111111;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            text-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
+        .staff-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .staff-card:hover {
-            border-color: #9b59b6;
-            transform: translateY(-4px);
-            background: #151515;
+            border-color: var(--primary);
+            transform: translateY(-10px) scale(1.02);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow);
+        }
+
+        .staff-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .staff-card:hover:before {
+            transform: scaleX(1);
         }
 
         .staff-avatar {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            margin: 0 auto 1rem;
-            background: #2a2a2a;
-            border: 2px solid #9b59b6;
+            margin: 0 auto 1.5rem;
+            background: var(--border);
+            border: 3px solid var(--primary);
             overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .staff-card:hover .staff-avatar {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 25px rgba(155, 89, 182, 0.4);
         }
 
         .staff-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .staff-card:hover .staff-avatar img {
+            transform: scale(1.1);
         }
 
         .staff-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
             margin-bottom: 0.5rem;
+            text-align: center;
         }
 
         .staff-role {
-            font-size: 1rem;
-            color: #9b59b6;
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
             font-weight: 500;
+            text-align: center;
+        }
+
+        .staff-info {
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .staff-info p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .staff-info strong {
+            color: var(--primary);
+        }
+
+        .server-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .server-badge {
+            background: var(--bg-dark);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .staff-card:hover .server-badge {
+            background: var(--primary);
+            color: var(--text);
         }
 
         .staff-contact {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .staff-contact a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: #1a1a1a;
-            color: #cccccc;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-dark);
+            color: var(--text-secondary);
             border-radius: 50%;
             text-decoration: none;
-            transition: all 0.3s ease;
-            border: 1px solid #2a2a2a;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
         }
 
         .staff-contact a:hover {
-            background: #2a2a2a;
-            color: #9b59b6;
-            transform: translateY(-2px);
+            background: var(--primary);
+            color: var(--text);
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
         }
 
-        /* Role Filter Styles */
-        .filter-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            justify-content: center;
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
 
-        .filter-btn {
-            padding: 8px 16px;
-            background: #1a1a1a;
-            color: #cccccc;
-            border: 1px solid #2a2a2a;
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: var(--bg-card);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            z-index: 100;
+            padding: 1rem;
+            top: 100%;
+            left: 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
             border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'JetBrains Mono', monospace;
+            transition: var(--transition);
         }
 
-        .filter-btn:hover {
-            background: #2a2a2a;
-            color: #9b59b6;
+        .dropdown-item:hover {
+            background: var(--bg-card-hover);
+            color: var(--primary);
         }
 
-        .filter-btn.active {
-            background: #9b59b6;
-            color: #ffffff;
-            border-color: #9b59b6;
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(10, 10, 10, 0.9));
+            padding: 4rem 0;
+            border-radius: var(--radius);
+            margin: 6rem 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        footer {
+        .stats-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(155,89,182,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(17, 17, 17, 0.7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
             text-align: center;
-            padding: 3rem 0;
-            color: #666666;
-            border-top: 1px solid #1a1a1a;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--border);
             margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+            bottom: -8px;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-dark);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--text);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .staff-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .nav-links {
                 display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
             }
             
             .logo-container {
@@ -265,103 +815,271 @@
             .staff-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
-        .scroll-fade {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
         }
 
-        .scroll-fade.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .mb-1 {
+            margin-bottom: 1rem;
         }
-        
-        /* Server Badges */
-        .server-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-1 {
             margin-top: 1rem;
         }
-        
-        .server-badge {
-            background: #1a1a1a;
-            color: #9b59b6;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            border: 1px solid #2a2a2a;
+
+        .mt-2 {
+            margin-top: 2rem;
         }
 
-        .staff-info {
-            margin: 1rem 0;
-            text-align: center;
-            font-size: 0.85rem;
+        .fade-in {
+            animation: fadeInUp 1s ease forwards;
         }
 
-        .staff-info p {
-            margin: 0.3rem 0;
-            color: #cccccc;
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: var(--text);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 100;
         }
 
-        .staff-info strong {
-            color: #9b59b6;
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo-container">
-                <img src="https://imgur.com/pnvYx9l.png" alt="Logo 1" onerror="this.style.display='none'">
-                <img src="https://peekseek.net/public/img/logo.png" alt="PeekSeek Logo" onerror="this.style.display='none'">
-                <div class="logo">Hypase</div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="#staff">Our Team</a></li>
-                <li><a href="../index.html#projects">Projects</a></li>
-                <li><a href="../index.html#skills">Skills</a></li>
-                <li><a href="../index.html#contact">Contact</a></li>
-            </ul>
-        </nav>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">Hypase</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo-container">
+                    <img src="https://imgur.com/pnvYx9l.png" alt="Logo 1" onerror="this.style.display='none'">
+                    <img src="https://peekseek.net/public/img/logo.png" alt="PeekSeek Logo" onerror="this.style.display='none'">
+                    <div class="logo">Hypase</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#staff">Our Team</a></li>
+                    <li class="dropdown">
+                        <a href="#">Departments <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item" data-filter="owner">Leadership</a>
+                            <a href="#" class="dropdown-item" data-filter="admin">Administration</a>
+                            <a href="#" class="dropdown-item" data-filter="mod">Moderation</a>
+                            <a href="#" class="dropdown-item" data-filter="dev">Development</a>
+                            <a href="#" class="dropdown-item" data-filter="trial">Trial Staff</a>
+                        </div>
+                    </li>
+                    <li><a href="../index.html#projects">Projects</a></li>
+                    <li><a href="../index.html#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
     </header>
 
-    <main class="container">
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">Hypase Staff Team</h1>
-                <p class="hero-subtitle">Meet the dedicated team behind our gaming community</p>
-            </div>
-        </section>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">Hypase Staff Directory</h1>
+                    <p class="hero-subtitle">Meet the Team Behind Our Gaming Community</p>
+                    <p class="hero-description">
+                        Our dedicated staff members work tirelessly to ensure the best experience 
+                        for our community. Get to know the people who make it all happen.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-staff">18</span>
+                            <span class="stat-label">Total Staff</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="active-servers">5</span>
+                            <span class="stat-label">Active Servers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="years-active">3</span>
+                            <span class="stat-label">Years Active</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <section id="staff" class="section scroll-fade">
-            <h2 class="section-title">Our Team</h2>
-            
-            <div class="filter-container">
-                <button class="filter-btn active" data-filter="all">All Staff</button>
-                <button class="filter-btn" data-filter="owner">Owners</button>
-                <button class="filter-btn" data-filter="admin">Administration</button>
-                <button class="filter-btn" data-filter="mod">Moderation</button>
-                <button class="filter-btn" data-filter="dev">Development</button>
-                <button class="filter-btn" data-filter="trial">Trial Staff</button>
-            </div>
-            
-            <div class="staff-grid" id="staffContainer">
-                <!-- Staff members will be dynamically added here -->
-            </div>
-        </section>
+            <!-- Staff Section -->
+            <section id="staff" class="section">
+                <h2 class="section-title">Our Team</h2>
+                
+                <!-- Search Box -->
+                <div class="search-container">
+                    <input type="text" class="search-box" id="search-box" placeholder="Search staff by name, role, or department...">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <!-- Filter Buttons -->
+                <div class="filter-container">
+                    <button class="filter-btn active" data-filter="all">All Staff</button>
+                    <button class="filter-btn" data-filter="owner">Leadership</button>
+                    <button class="filter-btn" data-filter="admin">Administration</button>
+                    <button class="filter-btn" data-filter="mod">Moderation</button>
+                    <button class="filter-btn" data-filter="dev">Development</button>
+                    <button class="filter-btn" data-filter="trial">Trial Staff</button>
+                </div>
+                
+                <!-- Staff Grid -->
+                <div class="staff-grid" id="staffContainer">
+                    <!-- Staff members will be dynamically added here -->
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="stats-section section">
+                <div class="container">
+                    <h2 class="section-title">Community Stats</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                            <i class="fas fa-users"></i>
+                            <h3 id="community-members">12,584</h3>
+                            <p>Community Members</p>
+                        </div>
+                        <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                            <i class="fas fa-gamepad"></i>
+                            <h3 id="active-players">2,347</h3>
+                            <p>Active Players</p>
+                        </div>
+                        <div class="stat-card fade-in" style="animation-delay: 0.5s;">
+                            <i class="fas fa-server"></i>
+                            <h3 id="total-servers">8</h3>
+                            <p>Total Servers</p>
+                        </div>
+                        <div class="stat-card fade-in" style="animation-delay: 0.7s;">
+                            <i class="fas fa-clock"></i>
+                            <h3 id="uptime-percent">99.8%</h3>
+                            <p>Server Uptime</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Hypase. Gaming Community • Built for the gaming community</p>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Hypase Network</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Building the best gaming community experience with dedicated staff and cutting-edge servers.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="#" title="Steam"><i class="fab fa-steam"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#staff"><i class="fas fa-users"></i> Our Team</a></li>
+                        <li><a href="../index.html#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                        <li><a href="../index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Departments</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-filter="owner"><i class="fas fa-crown"></i> Leadership</a></li>
+                        <li><a href="#" data-filter="admin"><i class="fas fa-user-shield"></i> Administration</a></li>
+                        <li><a href="#" data-filter="mod"><i class="fas fa-gavel"></i> Moderation</a></li>
+                        <li><a href="#" data-filter="dev"><i class="fas fa-code"></i> Development</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-bug"></i> Report Issue</a></li>
+                        <li><a href="#"><i class="fas fa-comments"></i> Community Forums</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Hypase Gaming Community. All rights reserved. • Built with passion for the gaming community</p>
+            </div>
         </div>
     </footer>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // Staff data with unique images and no descriptions
         const staffData = [
@@ -583,15 +1301,117 @@
             }
         ];
 
-        // Function to render staff cards
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading progress
+            simulateLoading();
+            
+            // Initialize particles
+            initParticles();
+            
+            // Initialize the staff directory
+            initStaffDirectory();
+            
+            // Initialize scroll effects
+            initScrollEffects();
+            
+            // Initialize animations
+            initAnimations();
+            
+            // Initialize event listeners
+            initEventListeners();
+        });
+
+        // Simulate loading progress
+        function simulateLoading() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingProgress = document.getElementById('loading-progress');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Hide loading screen after a short delay
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                    }, 500);
+                }
+                
+                loadingProgress.style.width = `${progress}%`;
+            }, 200);
+        }
+
+        // Initialize particles background
+        function initParticles() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 80, density: { enable: true, value_area: 800 } },
+                        color: { value: "#9b59b6" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#9b59b6",
+                            opacity: 0.2,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 2,
+                            direction: "none",
+                            random: true,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: true, mode: "repulse" },
+                            onclick: { enable: true, mode: "push" },
+                            resize: true
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+        }
+
+        // Initialize staff directory
+        function initStaffDirectory() {
+            renderStaffCards(staffData);
+            updateStats();
+        }
+
+        // Render staff cards
         function renderStaffCards(staff) {
             const container = document.getElementById('staffContainer');
             container.innerHTML = '';
             
-            staff.forEach(member => {
+            if (staff.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center" style="grid-column: 1 / -1; padding: 3rem;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--text-secondary);">No staff members found</h3>
+                        <p style="color: var(--text-muted);">Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            staff.forEach((member, index) => {
                 const card = document.createElement('div');
-                card.className = 'staff-card scroll-fade';
+                card.className = 'staff-card';
                 card.setAttribute('data-dept', member.department);
+                card.style.animationDelay = `${index * 0.1}s`;
                 
                 // Create server badges
                 const serverBadges = member.servers.map(server => 
@@ -600,54 +1420,143 @@
                 
                 card.innerHTML = `
                     <div class="staff-avatar">
-                        <img src="${member.avatar}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/120/9b59b6/ffffff?text=${member.name.charAt(0)}'">
+                        <img src="${member.avatar}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/140/9b59b6/ffffff?text=${member.name.charAt(0)}'">
                     </div>
                     <h3 class="staff-name">${member.name}</h3>
                     <p class="staff-role">${member.role}</p>
                     <div class="staff-info">
-                        <p><strong>Discord:</strong> ${member.discord}</p>
-                        ${member.ign ? `<p><strong>IGN:</strong> ${member.ign}</p>` : ''}
-                        ${member.steam64 ? `<p><strong>Steam64:</strong> <a href="${member.steam}" target="_blank" style="color: #9b59b6;">${member.steam64}</a></p>` : ''}
+                        <p><strong><i class="fas fa-comment-dots"></i> Discord:</strong> ${member.discord}</p>
+                        ${member.ign ? `<p><strong><i class="fas fa-gamepad"></i> IGN:</strong> ${member.ign}</p>` : ''}
+                        ${member.steam64 ? `<p><strong><i class="fab fa-steam"></i> Steam64:</strong> <a href="${member.steam}" target="_blank" style="color: var(--primary);">${member.steam64}</a></p>` : ''}
                     </div>
                     <div class="server-badges">
                         ${serverBadges}
                     </div>
                     <div class="staff-contact">
-                        ${member.discord ? `<a href="#" title="Discord: ${member.discord}">💬</a>` : ''}
-                        ${member.steam ? `<a href="${member.steam}" target="_blank" title="Steam Profile">🎮</a>` : ''}
+                        ${member.discord ? `<a href="#" title="Discord: ${member.discord}"><i class="fab fa-discord"></i></a>` : ''}
+                        ${member.steam ? `<a href="${member.steam}" target="_blank" title="Steam Profile"><i class="fab fa-steam"></i></a>` : ''}
                     </div>
                 `;
                 
                 container.appendChild(card);
             });
             
-            // Add scroll animation observers
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+            // Animate cards into view
+            setTimeout(() => {
+                document.querySelectorAll('.staff-card').forEach(card => {
+                    card.classList.add('visible');
                 });
-            }, observerOptions);
+            }, 100);
+        }
 
-            document.querySelectorAll('.scroll-fade').forEach(el => {
-                observer.observe(el);
+        // Update statistics
+        function updateStats() {
+            // Count staff by department
+            const ownerCount = staffData.filter(m => m.department === 'owner').length;
+            const adminCount = staffData.filter(m => m.department === 'admin').length;
+            const modCount = staffData.filter(m => m.department === 'mod').length;
+            const devCount = staffData.filter(m => m.department === 'dev').length;
+            const trialCount = staffData.filter(m => m.department === 'trial').length;
+            
+            // Update department counts in filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const filter = btn.getAttribute('data-filter');
+                let count = 0;
+                
+                switch(filter) {
+                    case 'owner': count = ownerCount; break;
+                    case 'admin': count = adminCount; break;
+                    case 'mod': count = modCount; break;
+                    case 'dev': count = devCount; break;
+                    case 'trial': count = trialCount; break;
+                    case 'all': count = staffData.length; break;
+                }
+                
+                if (filter !== 'all') {
+                    btn.innerHTML = `${btn.textContent.split(' (')[0]} (${count})`;
+                }
             });
         }
 
-        // Filter functionality
-        function setupFilters() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
+        // Initialize scroll effects
+        function initScrollEffects() {
+            const header = document.getElementById('header');
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
             
-            filterButtons.forEach(button => {
+            window.addEventListener('scroll', () => {
+                // Header scroll effect
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                // Scroll to top button
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+                
+                // Section animations
+                document.querySelectorAll('.section').forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight * 0.85) {
+                        section.classList.add('visible');
+                    }
+                });
+            });
+            
+            // Scroll to top functionality
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Initialize animations
+        function initAnimations() {
+            // Animate stats numbers
+            animateValue('total-staff', 0, 18, 2000);
+            animateValue('active-servers', 0, 5, 2000);
+            animateValue('years-active', 0, 3, 2000);
+            animateValue('community-members', 0, 12584, 2500);
+            animateValue('active-players', 0, 2347, 2500);
+            animateValue('total-servers', 0, 8, 2500);
+            
+            // Add floating animation to some elements
+            document.querySelectorAll('.staff-avatar').forEach((avatar, index) => {
+                avatar.style.animation = `float 6s ease-in-out ${index * 0.2}s infinite`;
+            });
+        }
+
+        // Animate number values
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = value.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Initialize event listeners
+        function initEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
                 button.addEventListener('click', () => {
                     // Update active button
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     
                     // Filter staff
@@ -663,14 +1572,75 @@
                     renderStaffCards(filteredStaff);
                 });
             });
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', () => {
-            renderStaffCards(staffData);
-            setupFilters();
             
-            // Smooth scrolling for navigation
+            // Search functionality
+            const searchBox = document.getElementById('search-box');
+            searchBox.addEventListener('input', () => {
+                const searchTerm = searchBox.value.toLowerCase();
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                
+                let filteredStaff = staffData;
+                
+                // Apply active filter first
+                if (activeFilter !== 'all') {
+                    filteredStaff = staffData.filter(member => member.department === activeFilter);
+                }
+                
+                // Then apply search filter
+                if (searchTerm) {
+                    filteredStaff = filteredStaff.filter(member => 
+                        member.name.toLowerCase().includes(searchTerm) ||
+                        member.role.toLowerCase().includes(searchTerm) ||
+                        member.department.toLowerCase().includes(searchTerm) ||
+                        member.discord.toLowerCase().includes(searchTerm) ||
+                        (member.ign && member.ign.toLowerCase().includes(searchTerm))
+                    );
+                }
+                
+                renderStaffCards(filteredStaff);
+            });
+            
+            // Dropdown filter links
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const filter = item.getAttribute('data-filter');
+                    
+                    // Find and click the corresponding filter button
+                    const correspondingBtn = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+                    if (correspondingBtn) {
+                        correspondingBtn.click();
+                    }
+                });
+            });
+            
+            // Footer department links
+            document.querySelectorAll('.footer-links a[data-filter]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const filter = link.getAttribute('data-filter');
+                    
+                    // Find and click the corresponding filter button
+                    const correspondingBtn = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+                    if (correspondingBtn) {
+                        correspondingBtn.click();
+                        
+                        // Scroll to staff section
+                        document.getElementById('staff').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            mobileMenuBtn.addEventListener('click', () => {
+                const navLinks = document.querySelector('.nav-links');
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+            
+            // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -683,7 +1653,9 @@
                     }
                 });
             });
-        });
+        }
     </script>
+</body>
+</html>
 </body>
 </html>
