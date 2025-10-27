@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hypase Carlist and Prices</title>
+    <title>Unturned RP Server | Vehicle & Weapon IDs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +14,7 @@
             --dark: #1a202c;
             --gray: #718096;
             --success: #38a169;
+            --warning: #d69e2e;
         }
         
         * {
@@ -24,17 +25,18 @@
         }
         
         body {
-            background-color: #f5f7fa;
-            color: var(--dark);
+            background-color: #0f172a;
+            color: #e2e8f0;
             line-height: 1.6;
         }
         
         /* Header Styles */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
             color: white;
             padding: 1.5rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid #3b82f6;
         }
         
         .header-container {
@@ -54,7 +56,7 @@
         
         .logo i {
             font-size: 2.5rem;
-            color: var(--accent);
+            color: #60a5fa;
         }
         
         .logo h1 {
@@ -63,7 +65,7 @@
         }
         
         .logo span {
-            color: var(--accent);
+            color: #60a5fa;
         }
         
         nav ul {
@@ -82,31 +84,30 @@
         }
         
         nav a:hover {
-            color: var(--accent);
+            color: #93c5fd;
         }
         
-        nav a::after {
+        nav a.active {
+            color: #60a5fa;
+        }
+        
+        nav a.active::after {
             content: '';
             position: absolute;
-            width: 0;
+            width: 100%;
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--accent);
-            transition: width 0.3s;
-        }
-        
-        nav a:hover::after {
-            width: 100%;
+            background-color: #60a5fa;
         }
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(26, 54, 93, 0.8), rgba(45, 55, 72, 0.8)), url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
         }
         
@@ -118,6 +119,7 @@
         .hero h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            color: #93c5fd;
         }
         
         .hero p {
@@ -126,22 +128,19 @@
             opacity: 0.9;
         }
         
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .server-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
         
-        .cta-button:hover {
-            background-color: #c53030;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        .info-card {
+            background-color: rgba(30, 58, 138, 0.7);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #60a5fa;
         }
         
         /* Main Content */
@@ -158,7 +157,7 @@
         
         .section-title h2 {
             font-size: 2rem;
-            color: var(--primary);
+            color: #93c5fd;
             position: relative;
             display: inline-block;
             padding-bottom: 0.5rem;
@@ -169,17 +168,54 @@
             position: absolute;
             width: 60%;
             height: 3px;
-            background-color: var(--accent);
+            background-color: #60a5fa;
             bottom: 0;
             left: 20%;
         }
         
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background-color: #1e293b;
+            border-radius: 8px 8px 0 0;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: #334155;
+        }
+        
+        .tab.active {
+            background-color: #1e3a8a;
+            border-bottom: 3px solid #60a5fa;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: #1e293b;
+            border-radius: 0 0 8px 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
         /* Filters */
         .filters {
-            background-color: white;
+            background-color: #334155;
             padding: 1.5rem;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             margin-bottom: 2rem;
             display: flex;
             flex-wrap: wrap;
@@ -195,15 +231,16 @@
         
         .filter-group label {
             font-weight: 600;
-            color: var(--secondary);
+            color: #cbd5e1;
             font-size: 0.9rem;
         }
         
         .filter-group select, .filter-group input {
             padding: 0.7rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #475569;
             border-radius: 4px;
-            background-color: white;
+            background-color: #1e293b;
+            color: #e2e8f0;
             min-width: 150px;
         }
         
@@ -215,107 +252,114 @@
         .search-box input {
             width: 100%;
             padding: 0.7rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #475569;
             border-radius: 4px;
+            background-color: #1e293b;
+            color: #e2e8f0;
         }
         
-        /* Car Grid */
-        .car-grid {
+        /* Item Grid */
+        .item-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
         
-        .car-card {
-            background-color: white;
+        .item-card {
+            background-color: #334155;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #475569;
         }
         
-        .car-card:hover {
+        .item-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            border-color: #60a5fa;
         }
         
-        .car-image {
-            height: 200px;
-            background-color: #e2e8f0;
+        .item-image {
+            height: 160px;
+            background-color: #475569;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray);
-            font-size: 3rem;
+            color: #94a3b8;
+            font-size: 2.5rem;
             position: relative;
             overflow: hidden;
         }
         
-        .car-image img {
+        .item-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        .car-badge {
+        .item-badge {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: var(--accent);
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #1e3a8a;
             color: white;
             padding: 0.3rem 0.7rem;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
         }
         
-        .car-info {
+        .item-info {
             padding: 1.5rem;
         }
         
-        .car-make {
-            color: var(--gray);
+        .item-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+        }
+        
+        .item-id {
+            color: #94a3b8;
             font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             margin-bottom: 0.5rem;
         }
         
-        .car-model {
+        .item-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        
+        .item-spec {
+            background-color: #475569;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+        
+        .item-price {
             font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .car-specs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .car-spec {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        
-        .car-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--success);
+            color: #10b981;
             margin-bottom: 1rem;
         }
         
-        .car-actions {
+        .item-price.ammo {
+            color: #f59e0b;
+        }
+        
+        .item-actions {
             display: flex;
             gap: 0.8rem;
         }
         
         .btn {
-            padding: 0.7rem 1.2rem;
+            padding: 0.6rem 1rem;
             border: none;
             border-radius: 4px;
             font-weight: 600;
@@ -325,33 +369,34 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
+            font-size: 0.9rem;
         }
         
         .btn-primary {
-            background-color: var(--primary);
+            background-color: #1e40af;
             color: white;
         }
         
         .btn-primary:hover {
-            background-color: #2d3748;
+            background-color: #1e3a8a;
         }
         
         .btn-outline {
             background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
+            color: #60a5fa;
+            border: 1px solid #60a5fa;
         }
         
         .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
+            background-color: #1e3a8a;
         }
         
         /* Footer */
         footer {
-            background-color: var(--dark);
-            color: white;
+            background-color: #0f172a;
+            color: #94a3b8;
             padding: 3rem 0 1.5rem;
+            border-top: 1px solid #334155;
         }
         
         .footer-content {
@@ -368,6 +413,7 @@
             margin-bottom: 1.5rem;
             position: relative;
             padding-bottom: 0.5rem;
+            color: #e2e8f0;
         }
         
         .footer-section h3::after {
@@ -375,7 +421,7 @@
             position: absolute;
             width: 40px;
             height: 2px;
-            background-color: var(--accent);
+            background-color: #60a5fa;
             bottom: 0;
             left: 0;
         }
@@ -394,7 +440,7 @@
         }
         
         .footer-links a {
-            color: white;
+            color: #94a3b8;
             text-decoration: none;
             opacity: 0.8;
             transition: opacity 0.3s;
@@ -402,6 +448,7 @@
         
         .footer-links a:hover {
             opacity: 1;
+            color: #60a5fa;
         }
         
         .social-links {
@@ -416,14 +463,15 @@
             justify-content: center;
             width: 36px;
             height: 36px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #334155;
             border-radius: 50%;
-            color: white;
+            color: #94a3b8;
             transition: all 0.3s;
         }
         
         .social-links a:hover {
-            background-color: var(--accent);
+            background-color: #60a5fa;
+            color: white;
             transform: translateY(-3px);
         }
         
@@ -431,7 +479,7 @@
             text-align: center;
             padding-top: 2rem;
             margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #334155;
             opacity: 0.7;
             font-size: 0.9rem;
         }
@@ -445,6 +493,8 @@
             
             nav ul {
                 gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             .filters {
@@ -456,12 +506,22 @@
                 width: 100%;
             }
             
-            .car-grid {
+            .item-grid {
                 grid-template-columns: 1fr;
             }
             
             .hero h2 {
                 font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                text-align: center;
+                min-width: 120px;
             }
         }
     </style>
@@ -471,14 +531,15 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-car"></i>
-                <h1>Hypase <span>Carlist</span></h1>
+                <i class="fas fa-gamepad"></i>
+                <h1>Unturned <span>RP Server</span></h1>
             </div>
             <nav>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#inventory">Inventory</a></li>
-                    <li><a href="#about">About</a></li>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#vehicles">Vehicles</a></li>
+                    <li><a href="#weapons">Weapons</a></li>
+                    <li><a href="#rules">Rules</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -488,187 +549,280 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h2>Find Your Perfect Vehicle</h2>
-            <p>Browse our extensive collection of premium vehicles with transparent pricing and detailed specifications.</p>
-            <a href="#inventory" class="cta-button">View Inventory</a>
+            <h2>Unturned Roleplay Server</h2>
+            <p>Complete database of all vehicles and weapons with IDs, images, and prices for your roleplay experience.</p>
+            <div class="server-info">
+                <div class="info-card">
+                    <h3>Server IP</h3>
+                    <p>unturned-rp.hypase.com:27015</p>
+                </div>
+                <div class="info-card">
+                    <h3>Players Online</h3>
+                    <p>24/32</p>
+                </div>
+                <div class="info-card">
+                    <h3>Server Status</h3>
+                    <p><i class="fas fa-circle" style="color: #10b981;"></i> Online</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Main Content -->
-    <div class="container" id="inventory">
-        <div class="section-title">
-            <h2>Our Vehicle Inventory</h2>
+    <div class="container">
+        <!-- Vehicles Section -->
+        <div class="section-title" id="vehicles">
+            <h2>Vehicle Database</h2>
         </div>
 
-        <!-- Filters -->
-        <div class="filters">
-            <div class="filter-group">
-                <label for="make">Make</label>
-                <select id="make">
-                    <option value="all">All Makes</option>
-                    <option value="toyota">Toyota</option>
-                    <option value="honda">Honda</option>
-                    <option value="ford">Ford</option>
-                    <option value="bmw">BMW</option>
-                    <option value="mercedes">Mercedes-Benz</option>
-                    <option value="audi">Audi</option>
-                </select>
+        <div class="tabs">
+            <div class="tab active" data-tab="cargo-trucks">Cargo Trucks</div>
+            <div class="tab" data-tab="vanilla-vehicles">Vanilla Vehicles 2 R</div>
+            <div class="tab" data-tab="redemption-vehicles">Redemption Vehicles</div>
+            <div class="tab" data-tab="wind-cars">Wind Cars 2.0</div>
+        </div>
+
+        <div class="tab-content active" id="cargo-trucks">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="vehicle-type">Vehicle Type</label>
+                    <select id="vehicle-type">
+                        <option value="all">All Types</option>
+                        <option value="truck">Truck</option>
+                        <option value="trailer">Trailer</option>
+                        <option value="utility">Utility</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="vehicle-price">Max Price</label>
+                    <select id="vehicle-price">
+                        <option value="all">Any Price</option>
+                        <option value="5000">$5,000</option>
+                        <option value="10000">$10,000</option>
+                        <option value="20000">$20,000</option>
+                        <option value="50000">$50,000</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <label for="vehicle-search">Search Vehicles</label>
+                    <input type="text" id="vehicle-search" placeholder="Search by name or ID...">
+                </div>
             </div>
-            <div class="filter-group">
-                <label for="type">Vehicle Type</label>
-                <select id="type">
-                    <option value="all">All Types</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="suv">SUV</option>
-                    <option value="truck">Truck</option>
-                    <option value="coupe">Coupe</option>
-                    <option value="convertible">Convertible</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="price">Max Price</label>
-                <select id="price">
-                    <option value="all">Any Price</option>
-                    <option value="25000">$25,000</option>
-                    <option value="50000">$50,000</option>
-                    <option value="75000">$75,000</option>
-                    <option value="100000">$100,000</option>
-                </select>
-            </div>
-            <div class="search-box">
-                <label for="search">Search</label>
-                <input type="text" id="search" placeholder="Search by model, make, or feature...">
+
+            <div class="item-grid">
+                <!-- Cargo Truck 1 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/1e3a8a/ffffff?text=Cargo+Truck" alt="Cargo Truck">
+                        <div class="item-badge">Cargo</div>
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Freightliner Cascadia</div>
+                        <div class="item-id">ID: 1250</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Speed: 65 mph</div>
+                            <div class="item-spec">Storage: 40 slots</div>
+                            <div class="item-spec">Fuel: Diesel</div>
+                        </div>
+                        <div class="item-price">$45,000</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cargo Truck 2 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/1e3a8a/ffffff?text=Semi+Trailer" alt="Semi Trailer">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Semi Trailer</div>
+                        <div class="item-id">ID: 1251</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Storage: 60 slots</div>
+                            <div class="item-spec">Attachable</div>
+                        </div>
+                        <div class="item-price">$32,000</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cargo Truck 3 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/1e3a8a/ffffff?text=Utility+Truck" alt="Utility Truck">
+                        <div class="item-badge">Utility</div>
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Utility Service Truck</div>
+                        <div class="item-id">ID: 1252</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Speed: 55 mph</div>
+                            <div class="item-spec">Storage: 25 slots</div>
+                            <div class="item-spec">Fuel: Diesel</div>
+                        </div>
+                        <div class="item-price">$28,500</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cargo Truck 4 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/1e3a8a/ffffff?text=Delivery+Truck" alt="Delivery Truck">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">Box Delivery Truck</div>
+                        <div class="item-id">ID: 1253</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Speed: 60 mph</div>
+                            <div class="item-spec">Storage: 35 slots</div>
+                            <div class="item-spec">Fuel: Diesel</div>
+                        </div>
+                        <div class="item-price">$36,000</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Car Grid -->
-        <div class="car-grid">
-            <!-- Car 1 -->
-            <div class="car-card">
-                <div class="car-image">
-                    <i class="fas fa-car"></i>
-                    <div class="car-badge">New</div>
+        <!-- Weapons Section -->
+        <div class="section-title" id="weapons">
+            <h2>Weapon Database</h2>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="battle-rifles">Battle Rifles</div>
+            <div class="tab" data-tab="carbines">Carbines</div>
+            <div class="tab" data-tab="lmg">LMG</div>
+            <div class="tab" data-tab="smg">SMG</div>
+        </div>
+
+        <div class="tab-content active" id="battle-rifles">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="weapon-caliber">Caliber</label>
+                    <select id="weapon-caliber">
+                        <option value="all">All Calibers</option>
+                        <option value="556">5.56mm</option>
+                        <option value="762">7.62mm</option>
+                        <option value="308">.308</option>
+                    </select>
                 </div>
-                <div class="car-info">
-                    <div class="car-make">Toyota</div>
-                    <div class="car-model">Camry XSE</div>
-                    <div class="car-specs">
-                        <div class="car-spec"><i class="fas fa-gas-pump"></i> Hybrid</div>
-                        <div class="car-spec"><i class="fas fa-cogs"></i> Automatic</div>
-                        <div class="car-spec"><i class="fas fa-user-friends"></i> 5 seats</div>
-                    </div>
-                    <div class="car-price">$32,450</div>
-                    <div class="car-actions">
-                        <a href="#" class="btn btn-primary">View Details</a>
-                        <a href="#" class="btn btn-outline">Contact</a>
-                    </div>
+                <div class="filter-group">
+                    <label for="weapon-price">Max Price</label>
+                    <select id="weapon-price">
+                        <option value="all">Any Price</option>
+                        <option value="1000">$1,000</option>
+                        <option value="2500">$2,500</option>
+                        <option value="5000">$5,000</option>
+                        <option value="10000">$10,000</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <label for="weapon-search">Search Weapons</label>
+                    <input type="text" id="weapon-search" placeholder="Search by name or ID...">
                 </div>
             </div>
 
-            <!-- Car 2 -->
-            <div class="car-card">
-                <div class="car-image">
-                    <i class="fas fa-car"></i>
-                    <div class="car-badge">Popular</div>
-                </div>
-                <div class="car-info">
-                    <div class="car-make">Ford</div>
-                    <div class="car-model">Explorer Limited</div>
-                    <div class="car-specs">
-                        <div class="car-spec"><i class="fas fa-gas-pump"></i> Gasoline</div>
-                        <div class="car-spec"><i class="fas fa-cogs"></i> Automatic</div>
-                        <div class="car-spec"><i class="fas fa-user-friends"></i> 7 seats</div>
+            <div class="item-grid">
+                <!-- Battle Rifle 1 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/7c2d12/ffffff?text=HK417" alt="HK417">
+                        <div class="item-badge">Rare</div>
                     </div>
-                    <div class="car-price">$45,200</div>
-                    <div class="car-actions">
-                        <a href="#" class="btn btn-primary">View Details</a>
-                        <a href="#" class="btn btn-outline">Contact</a>
+                    <div class="item-info">
+                        <div class="item-name">HK417 Battle Rifle</div>
+                        <div class="item-id">ID: 520</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Caliber: 7.62mm</div>
+                            <div class="item-spec">Damage: High</div>
+                            <div class="item-spec">Range: Long</div>
+                        </div>
+                        <div class="item-price">$4,500</div>
+                        <div class="item-price ammo">Ammo: $35/30rnd</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Car 3 -->
-            <div class="car-card">
-                <div class="car-image">
-                    <i class="fas fa-car"></i>
-                </div>
-                <div class="car-info">
-                    <div class="car-make">BMW</div>
-                    <div class="car-model">X5 xDrive40i</div>
-                    <div class="car-specs">
-                        <div class="car-spec"><i class="fas fa-gas-pump"></i> Gasoline</div>
-                        <div class="car-spec"><i class="fas fa-cogs"></i> Automatic</div>
-                        <div class="car-spec"><i class="fas fa-user-friends"></i> 5 seats</div>
+                <!-- Battle Rifle 2 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/7c2d12/ffffff?text=SCAR-H" alt="SCAR-H">
                     </div>
-                    <div class="car-price">$65,400</div>
-                    <div class="car-actions">
-                        <a href="#" class="btn btn-primary">View Details</a>
-                        <a href="#" class="btn btn-outline">Contact</a>
+                    <div class="item-info">
+                        <div class="item-name">SCAR-H</div>
+                        <div class="item-id">ID: 521</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Caliber: 7.62mm</div>
+                            <div class="item-spec">Damage: High</div>
+                            <div class="item-spec">Range: Long</div>
+                        </div>
+                        <div class="item-price">$4,200</div>
+                        <div class="item-price ammo">Ammo: $35/20rnd</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Car 4 -->
-            <div class="car-card">
-                <div class="car-image">
-                    <i class="fas fa-car"></i>
-                    <div class="car-badge">Luxury</div>
-                </div>
-                <div class="car-info">
-                    <div class="car-make">Mercedes-Benz</div>
-                    <div class="car-model">E-Class Sedan</div>
-                    <div class="car-specs">
-                        <div class="car-spec"><i class="fas fa-gas-pump"></i> Hybrid</div>
-                        <div class="car-spec"><i class="fas fa-cogs"></i> Automatic</div>
-                        <div class="car-spec"><i class="fas fa-user-friends"></i> 5 seats</div>
+                <!-- Battle Rifle 3 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/7c2d12/ffffff?text=M110" alt="M110">
                     </div>
-                    <div class="car-price">$58,900</div>
-                    <div class="car-actions">
-                        <a href="#" class="btn btn-primary">View Details</a>
-                        <a href="#" class="btn btn-outline">Contact</a>
+                    <div class="item-info">
+                        <div class="item-name">M110 SASS</div>
+                        <div class="item-id">ID: 522</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Caliber: 7.62mm</div>
+                            <div class="item-spec">Damage: Very High</div>
+                            <div class="item-spec">Range: Very Long</div>
+                        </div>
+                        <div class="item-price">$5,800</div>
+                        <div class="item-price ammo">Ammo: $40/20rnd</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Car 5 -->
-            <div class="car-card">
-                <div class="car-image">
-                    <i class="fas fa-car"></i>
-                </div>
-                <div class="car-info">
-                    <div class="car-make">Honda</div>
-                    <div class="car-model">CR-V EX-L</div>
-                    <div class="car-specs">
-                        <div class="car-spec"><i class="fas fa-gas-pump"></i> Gasoline</div>
-                        <div class="car-spec"><i class="fas fa-cogs"></i> Automatic</div>
-                        <div class="car-spec"><i class="fas fa-user-friends"></i> 5 seats</div>
+                <!-- Battle Rifle 4 -->
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://via.placeholder.com/300x160/7c2d12/ffffff?text=G3" alt="G3">
                     </div>
-                    <div class="car-price">$34,250</div>
-                    <div class="car-actions">
-                        <a href="#" class="btn btn-primary">View Details</a>
-                        <a href="#" class="btn btn-outline">Contact</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Car 6 -->
-            <div class="car-card">
-                <div class="car-image">
-                    <i class="fas fa-car"></i>
-                    <div class="car-badge">Eco</div>
-                </div>
-                <div class="car-info">
-                    <div class="car-make">Toyota</div>
-                    <div class="car-model">RAV4 Hybrid</div>
-                    <div class="car-specs">
-                        <div class="car-spec"><i class="fas fa-gas-pump"></i> Hybrid</div>
-                        <div class="car-spec"><i class="fas fa-cogs"></i> Automatic</div>
-                        <div class="car-spec"><i class="fas fa-user-friends"></i> 5 seats</div>
-                    </div>
-                    <div class="car-price">$31,500</div>
-                    <div class="car-actions">
-                        <a href="#" class="btn btn-primary">View Details</a>
-                        <a href="#" class="btn btn-outline">Contact</a>
+                    <div class="item-info">
+                        <div class="item-name">Heckler & Koch G3</div>
+                        <div class="item-id">ID: 523</div>
+                        <div class="item-specs">
+                            <div class="item-spec">Caliber: 7.62mm</div>
+                            <div class="item-spec">Damage: High</div>
+                            <div class="item-spec">Range: Long</div>
+                        </div>
+                        <div class="item-price">$3,900</div>
+                        <div class="item-price ammo">Ammo: $30/20rnd</div>
+                        <div class="item-actions">
+                            <button class="btn btn-primary">Spawn Command</button>
+                            <button class="btn btn-outline">Details</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -679,67 +833,80 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>About Hypase Carlist</h3>
-                <p>We are a premier automotive marketplace connecting buyers with their perfect vehicles. Our transparent pricing and detailed listings make car shopping easy and enjoyable.</p>
+                <h3>About Our Server</h3>
+                <p>We are a serious roleplay server for Unturned with custom vehicles, weapons, and an active economy system.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-steam"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#inventory">Inventory</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#">Financing</a></li>
-                    <li><a href="#">Trade-In</a></li>
+                    <li><a href="#vehicles">Vehicles</a></li>
+                    <li><a href="#weapons">Weapons</a></li>
+                    <li><a href="#rules">Server Rules</a></li>
+                    <li><a href="#contact">Contact Staff</a></li>
+                    <li><a href="#">Donate</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Automotive Ave, Detroit, MI</p>
-                <p><i class="fas fa-phone"></i> (555) 123-4567</p>
-                <p><i class="fas fa-envelope"></i> info@hypasecarlist.com</p>
-                <p><i class="fas fa-clock"></i> Mon-Fri: 9am-7pm, Sat: 10am-5pm</p>
+                <h3>Server Info</h3>
+                <p><i class="fas fa-server"></i> IP: unturned-rp.hypase.com</p>
+                <p><i class="fas fa-plug"></i> Port: 27015</p>
+                <p><i class="fas fa-users"></i> Slots: 32 players</p>
+                <p><i class="fas fa-map"></i> Map: PEI Custom</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2023 Hypase Carlist and Prices. All rights reserved.</p>
+            <p>&copy; 2023 Unturned Roleplay Server. All rights reserved. This server is not affiliated with Unturned or Smartly Dressed Games.</p>
         </div>
     </footer>
 
     <script>
-        // Simple filtering functionality
+        // Tab functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search');
-            const makeFilter = document.getElementById('make');
-            const typeFilter = document.getElementById('type');
-            const priceFilter = document.getElementById('price');
-            const carCards = document.querySelectorAll('.car-card');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            function filterCars() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const makeValue = makeFilter.value;
-                const typeValue = typeFilter.value;
-                const priceValue = priceFilter.value;
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Simple filtering functionality for vehicles
+            const vehicleSearch = document.getElementById('vehicle-search');
+            const vehicleType = document.getElementById('vehicle-type');
+            const vehiclePrice = document.getElementById('vehicle-price');
+            const vehicleCards = document.querySelectorAll('#cargo-trucks .item-card');
+            
+            function filterVehicles() {
+                const searchTerm = vehicleSearch.value.toLowerCase();
+                const typeValue = vehicleType.value;
+                const priceValue = vehiclePrice.value;
                 
-                carCards.forEach(card => {
-                    const carMake = card.querySelector('.car-make').textContent.toLowerCase();
-                    const carModel = card.querySelector('.car-model').textContent.toLowerCase();
-                    const carPrice = parseInt(card.querySelector('.car-price').textContent.replace('$', '').replace(',', ''));
+                vehicleCards.forEach(card => {
+                    const vehicleName = card.querySelector('.item-name').textContent.toLowerCase();
+                    const vehiclePriceText = card.querySelector('.item-price').textContent;
+                    const vehiclePriceNum = parseInt(vehiclePriceText.replace('$', '').replace(',', ''));
                     
-                    const matchesSearch = carMake.includes(searchTerm) || carModel.includes(searchTerm);
-                    const matchesMake = makeValue === 'all' || carMake.includes(makeValue);
-                    const matchesPrice = priceValue === 'all' || carPrice <= parseInt(priceValue);
+                    const matchesSearch = vehicleName.includes(searchTerm);
+                    const matchesType = typeValue === 'all' || true; // Simplified for demo
+                    const matchesPrice = priceValue === 'all' || vehiclePriceNum <= parseInt(priceValue);
                     
-                    // Type matching would need additional data attributes
-                    const matchesType = typeValue === 'all'; // Simplified for demo
-                    
-                    if (matchesSearch && matchesMake && matchesPrice && matchesType) {
+                    if (matchesSearch && matchesType && matchesPrice) {
                         card.style.display = 'block';
                     } else {
                         card.style.display = 'none';
@@ -747,10 +914,66 @@
                 });
             }
             
-            searchInput.addEventListener('input', filterCars);
-            makeFilter.addEventListener('change', filterCars);
-            typeFilter.addEventListener('change', filterCars);
-            priceFilter.addEventListener('change', filterCars);
+            vehicleSearch.addEventListener('input', filterVehicles);
+            vehicleType.addEventListener('change', filterVehicles);
+            vehiclePrice.addEventListener('change', filterVehicles);
+            
+            // Simple filtering functionality for weapons
+            const weaponSearch = document.getElementById('weapon-search');
+            const weaponCaliber = document.getElementById('weapon-caliber');
+            const weaponPrice = document.getElementById('weapon-price');
+            const weaponCards = document.querySelectorAll('#battle-rifles .item-card');
+            
+            function filterWeapons() {
+                const searchTerm = weaponSearch.value.toLowerCase();
+                const caliberValue = weaponCaliber.value;
+                const priceValue = weaponPrice.value;
+                
+                weaponCards.forEach(card => {
+                    const weaponName = card.querySelector('.item-name').textContent.toLowerCase();
+                    const weaponPriceText = card.querySelector('.item-price').textContent;
+                    const weaponPriceNum = parseInt(weaponPriceText.replace('$', '').replace(',', ''));
+                    
+                    const matchesSearch = weaponName.includes(searchTerm);
+                    const matchesCaliber = caliberValue === 'all' || true; // Simplified for demo
+                    const matchesPrice = priceValue === 'all' || weaponPriceNum <= parseInt(priceValue);
+                    
+                    if (matchesSearch && matchesCaliber && matchesPrice) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            weaponSearch.addEventListener('input', filterWeapons);
+            weaponCaliber.addEventListener('change', filterWeapons);
+            weaponPrice.addEventListener('change', filterWeapons);
+            
+            // Spawn command buttons
+            const spawnButtons = document.querySelectorAll('.btn-primary');
+            spawnButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemCard = this.closest('.item-card');
+                    const itemName = itemCard.querySelector('.item-name').textContent;
+                    const itemId = itemCard.querySelector('.item-id').textContent.replace('ID: ', '');
+                    
+                    alert(`Spawn command for ${itemName} (ID: ${itemId}):\n/give ${itemId}`);
+                });
+            });
+            
+            // Detail buttons
+            const detailButtons = document.querySelectorAll('.btn-outline');
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemCard = this.closest('.item-card');
+                    const itemName = itemCard.querySelector('.item-name').textContent;
+                    const itemId = itemCard.querySelector('.item-id').textContent;
+                    const itemPrice = itemCard.querySelector('.item-price').textContent;
+                    
+                    alert(`Details for ${itemName}:\n${itemId}\nPrice: ${itemPrice}`);
+                });
+            });
         });
     </script>
 </body>
